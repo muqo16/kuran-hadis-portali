@@ -1,12 +1,15 @@
+# Temporary & Log files
 *.tmp
 *.log
+*.bak
 .DS_Store
 Thumbs.db
-make_cover.py
-build_db.py
-populate_hadiths.py
-DUZ_METIN_R10.txt
-R10_PAYLASIM_METNI.txt
-R10_KONU_PAYLASIM_METNI.txt
-KURAN_VE_HADIS_PORTALI_OZELLIKLERI.txt
-githuba_gonder.bat
+
+# Development scripts & local docs
+*.py
+*.txt
+scratch/
+
+# IDE & Editor folders
+.vscode/
+.idea/
