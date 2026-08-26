@@ -456,6 +456,9 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
                     <button onclick="switchView('topics')" id="nav-topics" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
                         <i class="fa-solid fa-tags text-xs text-teal-500"></i> Konu Dizini
                     </button>
+                    <button onclick="switchView('history')" id="nav-history" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
+                        <i class="fa-solid fa-landmark-dome text-xs text-amber-500"></i> İslam Tarihi
+                    </button>
                 </nav>
             </div>
         </div>
@@ -950,6 +953,70 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
             <div id="hadiths-list-container" class="space-y-4"></div>
         </section>
 
+                <!-- 10. GÖRÜNÜM: İSLAM TARİHİ FİHRİSTİ & KRONOLOJİSİ -->
+        <section id="view-history" class="hidden space-y-6">
+            <!-- Başlık ve Filtreleme Kartı -->
+            <div class="bg-gray-900/80 border border-gray-800 p-5 sm:p-6 rounded-2xl space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div class="space-y-1">
+                        <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-landmark-dome text-amber-400"></i> İslam Tarihi Fihristi & Kronolojisi
+                        </h2>
+                        <p class="text-xs sm:text-sm text-gray-400">
+                            Peygamberler Tarihi, Kur'an Kıssaları, Nüzul Dönemi Olayları, Gazveler, Dört Halife ve Mushaf Tarihi. İlgili Kur'an ayetleriyle bağlantılıdır.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="history-total-badge" class="px-3 py-1.5 rounded-full bg-amber-950 text-amber-300 border border-amber-800/80 text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-clock-rotate-left text-amber-400"></i> <span id="history-count-text">34 Tarihi Hadise</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Arama Kutusu -->
+                <div class="pt-1">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                        <input 
+                            type="text" 
+                            id="history-search-input" 
+                            oninput="onHistorySearchInput()" 
+                            placeholder="İslam tarihinde arayın (Örn: Bedir, Uhud, Hicret, Miraç, Hz. Yusuf, Hudeybiye, Mushaf, Veda Haccı)..." 
+                            class="w-full pl-10 pr-10 py-2.5 bg-gray-950/80 border border-gray-700/80 rounded-xl text-xs sm:text-sm text-white placeholder-gray-500 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition"
+                        >
+                        <button onclick="clearHistorySearch()" id="history-clear-btn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white p-1">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dönem Filtre Butonları -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar" id="history-period-pills">
+                    <button onclick="filterHistoryByPeriod('all')" class="history-period-btn active px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white transition whitespace-nowrap" data-period="all">
+                        Tüm Hadiseler
+                    </button>
+                    <button onclick="filterHistoryByPeriod('peygamberler')" class="history-period-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap" data-period="peygamberler">
+                        Peygamberler Tarihi & Kıssalar
+                    </button>
+                    <button onclick="filterHistoryByPeriod('mekke')" class="history-period-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap" data-period="mekke">
+                        Mekke Dönemi (610-622)
+                    </button>
+                    <button onclick="filterHistoryByPeriod('medine')" class="history-period-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap" data-period="medine">
+                        Medine Dönemi & Gazveler (622-632)
+                    </button>
+                    <button onclick="filterHistoryByPeriod('halifeler')" class="history-period-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap" data-period="halifeler">
+                        Dört Halife Dönemi (632-661)
+                    </button>
+                    <button onclick="filterHistoryByPeriod('mushaf')" class="history-period-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap" data-period="mushaf">
+                        Kur'an & Mushaf Tarihi
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tarih Kartları Listesi -->
+            <div id="history-list-container" class="space-y-4"></div>
+        </section>
+
         <!-- 10. GÖRÜNÜM: SURE OKUYUCU (FULL SURAH READER) -->
         <section id="view-reader" class="hidden space-y-6">
             <!-- Sure Başlığı ve Kontrolleri -->
@@ -1213,7 +1280,7 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
 
         // Görünüm Değiştirici
         function switchView(viewName) {
-            const views = ['search', 'surahs', 'juz', 'pages', 'favorites', 'sajdah', 'topics', 'greetings', 'hadiths', 'reader'];
+            const views = ['search', 'surahs', 'juz', 'pages', 'favorites', 'sajdah', 'topics', 'greetings', 'hadiths', 'history', 'reader'];
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (el) el.classList.add('hidden');
@@ -1237,6 +1304,7 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
             if (viewName === 'pages') openPage(activePageNumber);
             if (viewName === 'greetings') initGreetingsView();
             if (viewName === 'hadiths') loadHadiths();
+            if (viewName === 'history') initHistoryView();
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -3192,6 +3260,664 @@ Türkçe Meali:
                 }
             });
             showToast(showTransliteration ? 'Türkçe okunuş açıldı' : 'Türkçe okunuş gizlendi');
+        }
+
+        
+        // =========================================================================
+        // İSLAM TARİHİ FİHRİSTİ & KRONOLOJİSİ (DATA VE YÖNETİM FONKSİYONLARI)
+        // =========================================================================
+        const ISLAMIC_HISTORY_DATA = [
+            {
+                id: 1,
+                period: "peygamberler",
+                periodName: "Peygamberler Tarihi",
+                dateStr: "Tarih Öncesi / İlk Yaratılış",
+                title: "Hz. Âdem (a.s.) ve İnsanlığın Yaratılışı",
+                summary: "Cenâb-ı Hakk'ın ilk insan ve ilk peygamber olarak Hz. Âdem'i topraktan yaratması, meleklerin secde etmesi, İblis'in kibri yüzünden isyanı ve Hz. Âdem ile Havva validemizin yeryüzüne halife kılınması.",
+                verses: [
+                    { surahId: 2, surahName: "Bakara", ayahNum: 30, text: "Hani Rabbin meleklere: 'Ben yeryüzünde bir halife yaratacağım' demişti..." },
+                    { surahId: 7, surahName: "A'râf", ayahNum: 11, text: "Andolsun sizi yarattık, sonra size şekil verdik, sonra da meleklere: 'Âdem'e secde edin' dedik..." }
+                ],
+                lesson: "Kibrin felaket, tevazu ve samimi tevbenin ise kul için yegâne kurtuluş vesilesi olduğunu gösterir.",
+                icon: "fa-seedling"
+            },
+            {
+                id: 2,
+                period: "peygamberler",
+                periodName: "Peygamberler Tarihi",
+                dateStr: "M.Ö. ~3000'ler",
+                title: "Hz. Nûh (a.s.), Tevhid Mücadelesi ve Büyük Tufan",
+                summary: "Hz. Nûh'un kavmini 950 yıl bıkmadan usanmadan bir olan Allah'a davet etmesi, putperest kavmin alay ve zulmü üzerine vahiy ile gemi inşa etmesi ve inkârcıların büyük tufanla helak olması.",
+                verses: [
+                    { surahId: 11, surahName: "Hûd", ayahNum: 37, text: "Gözlerimizin önünde ve vahyimiz doğrultusunda gemiyi yap..." },
+                    { surahId: 71, surahName: "Nûh", ayahNum: 1, text: "Şüphesiz biz Nûh'u, kavmine bir uyarıcı olarak gönderdik..." }
+                ],
+                lesson: "Hak davada sabır ve sebatın, çokluğa değil Hakk'a tabi olmanın ehemmiyetini bildirir.",
+                icon: "fa-ship"
+            },
+            {
+                id: 3,
+                period: "peygamberler",
+                periodName: "Peygamberler Tarihi",
+                dateStr: "M.Ö. ~2000'ler",
+                title: "Hz. İbrâhim (a.s.) - Tevhid Önderi ve Kâbe'nin İnşası",
+                summary: "Nemrut'un ateşine atılan ancak 'Ey ateş! İbrahim'e karşı serin ve esenlik ol' nidasıyla kurtulan Halîlullah Hz. İbrahim'in oğlu Hz. İsmail ile birlikte yeryüzünün ilk mabedi olan Kâbe-i Muazzama'yı inşa etmesi.",
+                verses: [
+                    { surahId: 2, surahName: "Bakara", ayahNum: 127, text: "Hani İbrahim, İsmail ile birlikte Beyt'in (Kâbe'nin) temellerini yükseltiyordu..." },
+                    { surahId: 21, surahName: "Enbiyâ", ayahNum: 69, text: "Biz de dedik ki: 'Ey ateş! İbrahim'e karşı serin ve esenlik ol!'" }
+                ],
+                lesson: "Kayıtsız şartsız Allah'a teslimiyetin (ihlas ve tevekkül) her türlü ateşi gülistana çevireceğini öğretir.",
+                icon: "fa-kaaba"
+            },
+            {
+                id: 4,
+                period: "peygamberler",
+                periodName: "Peygamberler Tarihi",
+                dateStr: "M.Ö. ~1700'ler",
+                title: "Hz. Yûsuf (a.s.) - Kuyu, İffet, Zindan ve Mısır Azîzliği",
+                summary: "Kur'an-ı Kerim'de 'Kıssaların En Güzeli' (Ahsenü'l-Kasas) olarak anılan; kardeşleri tarafından kuyuya atılan, köle olarak satılan, iftiraya uğrayıp zindana giren ancak iffet ve sabrıyla Mısır'a sultan olan Hz. Yûsuf'un destansı hayatı.",
+                verses: [
+                    { surahId: 12, surahName: "Yûsuf", ayahNum: 3, text: "Sana bu Kur'an'ı vahyederek kıssaların en güzelini anlatıyoruz..." },
+                    { surahId: 12, surahName: "Yûsuf", ayahNum: 90, text: "Kim Allah'tan korkar ve sabrederse, bilsin ki Allah güzel davrananların mükâfatını zayi etmez." }
+                ],
+                lesson: "Zorluklar karşısında sabır, günahtan kaçınmada iffet ve intikam yerine affetmenin yüceliğini gösterir.",
+                icon: "fa-gem"
+            },
+            {
+                id: 5,
+                period: "peygamberler",
+                periodName: "Peygamberler Tarihi",
+                dateStr: "M.Ö. ~1300'ler",
+                title: "Hz. Mûsâ (a.s.), Firavun'a Karşı Kıyam ve Kızıldeniz'in Yarılması",
+                summary: "Tûr Dağı'nda Kelîmullah olarak vahye muhatap olan Hz. Mûsâ'nın zalim Firavun'a tebliği, asâ mucizesi, İsrailoğullarını zulümden kurtarışı ve Kızıldeniz'in yarılarak Firavun'un ordusuyla boğulması.",
+                verses: [
+                    { surahId: 20, surahName: "Tâhâ", ayahNum: 24, text: "Firavun'a git, çünkü o azdı." },
+                    { surahId: 26, surahName: "Şuarâ", ayahNum: 63, text: "Biz de Mûsâ'ya: 'Asân ile denize vur' diye vahyettik. Deniz yarıldı..." }
+                ],
+                lesson: "Zulüm ne kadar güçlü görünürse görünsün, ilahi adaletin tecelli edip zalimi helak edeceğini kanıtlar.",
+                icon: "fa-water"
+            },
+            {
+                id: 6,
+                period: "peygamberler",
+                periodName: "Peygamberler Tarihi",
+                dateStr: "M.Ö. ~1000'ler",
+                title: "Hz. Dâvûd ve Hz. Süleyman (a.s.) - Adalet ve İlim Devleti",
+                summary: "Zebur'un indirildiği, dağların ve kuşların kendisiyle tesbihe durduğu Hz. Dâvûd ile rüzgârların, kuşların ve cinlerin emrine verildiği eşsiz hükümdar-peygamber Hz. Süleyman'ın adalet nizamı.",
+                verses: [
+                    { surahId: 38, surahName: "Sâd", ayahNum: 26, text: "Ey Dâvûd! Biz seni yeryüzünde halife kıldık; insanlar arasında adaletle hükmet..." },
+                    { surahId: 27, surahName: "Neml", ayahNum: 15, text: "Andolsun ki biz Dâvûd'a ve Süleyman'a ilim verdik..." }
+                ],
+                lesson: "Maddi güç, iktidar ve servetin ancak Allah'a şükür ve kullara adalet vesilesi kılındığında kıymet bulduğunu anlatır.",
+                icon: "fa-crown"
+            },
+            {
+                id: 7,
+                period: "peygamberler",
+                periodName: "Peygamberler Tarihi",
+                dateStr: "M.Ö. 1. Yüzyıl - M.S. 30",
+                title: "Hz. Meryem ve Hz. Îsâ (a.s.) - Mucizevi Doğum ve Rûhullah",
+                summary: "İffet timsali Hz. Meryem'in babasız olarak Hz. Îsâ'yı dünyaya getirmesi, Hz. Îsâ'nın beşikteyken konuşması, ölüleri diriltme ve hastaları iyileştirme mucizeleri ve İncil'in vahyedilmesi.",
+                verses: [
+                    { surahId: 19, surahName: "Meryem", ayahNum: 30, text: "Bebek dedi ki: 'Şüphesiz ben Allah'ın kuluyum. O bana kitabı verdi ve beni peygamber kıldı.'" },
+                    { surahId: 3, surahName: "Âl-i İmrân", ayahNum: 45, text: "Hani melekler: 'Ey Meryem! Allah seni kendisinden bir kelime ile müjdeliyor, adı Meryem oğlu Îsâ Mesih'tir' demişti." }
+                ],
+                lesson: "Allah'ın kudretinin hiçbir sebebe bağlı olmadığını ('Ol' der ve olur) ve iffetin en büyük fazilet olduğunu vurgular.",
+                icon: "fa-dove"
+            },
+            {
+                id: 8,
+                period: "mekke",
+                periodName: "Mekke Dönemi",
+                dateStr: "M.S. 571 (Fil Yılı)",
+                title: "Fil Vakası ve Âlemlere Rahmet Efendimiz'in (s.a.v.) Doğumu",
+                summary: "Yemen Valisi Ebrehe'nin filleriyle Kâbe'yi yıkmaya gelmesi üzerine Ebabil kuşlarıyla helak edilişi ve aynı yılın 12 Rebîülevvel gecesinde Sevgili Peygamberimiz Hz. Muhammed Mustafa'nın (s.a.v.) dünyayı teşrifi.",
+                verses: [
+                    { surahId: 105, surahName: "Fîl", ayahNum: 1, text: "Rabbinin fil sahiplerine ne yaptığını görmedin mi?" },
+                    { surahId: 21, surahName: "Enbiyâ", ayahNum: 107, text: "Biz seni ancak âlemlere rahmet olarak gönderdik." }
+                ],
+                lesson: "Kâbe'nin bizzat Allah'ın hıfzında olduğunu ve Efendimiz'in (s.a.v.) tüm insanlığa rahmet müjdesiyle geldiğini müjdeler.",
+                icon: "fa-star-and-crescent"
+            },
+            {
+                id: 9,
+                period: "mekke",
+                periodName: "Mekke Dönemi",
+                dateStr: "M.S. 610 (Ramazan / Kadir Gecesi)",
+                title: "İlk Vahiy: Hira Mağarası ve 'İkra!' Emri",
+                summary: "40 yaşındaki Peygamberimiz'e (s.a.v.) Hira Mağarası'nda tefekkür halindeyken Cebrail (a.s.) vasıtasıyla ilk vahyin (Alak Suresi 1-5) indirilmesi ve 23 yıllık nübüvvet çağının başlaması.",
+                verses: [
+                    { surahId: 96, surahName: "Alak", ayahNum: 1, text: "Yaratan Rabbinin adıyla oku!" },
+                    { surahId: 97, surahName: "Kadr", ayahNum: 1, text: "Şüphesiz biz onu (Kur'an'ı) Kadir Gecesi'nde indirdik." }
+                ],
+                lesson: "İslam dininin ilk emrinin ilim, tefekkür, okuma ve Rabbin adıyla öğrenmek olduğunu ilan eder.",
+                icon: "fa-mountain"
+            },
+            {
+                id: 10,
+                period: "mekke",
+                periodName: "Mekke Dönemi",
+                dateStr: "M.S. 613 (Bi'setin 3. Yılı)",
+                title: "Açık Tebliğin Başlaması ve Safâ Tepesi Hitabı",
+                summary: "Gizli davet döneminin ardından 'En yakın akrabalarını uyar' ve 'Sana emrolunanı açıkça bildir' ayetleriyle Efendimiz'in Safâ Tepesi'nde Kureyş'i açıkça Tevhid'e çağırması ve müşriklerin şiddetli muhalefetinin başlaması.",
+                verses: [
+                    { surahId: 15, surahName: "Hicr", ayahNum: 94, text: "Artık sen emrolunduğun şeyi açıkça ortaya koy ve müşriklerden yüz çevir." },
+                    { surahId: 26, surahName: "Şuarâ", ayahNum: 214, text: "Ve en yakın hısımlarını uyar." }
+                ],
+                lesson: "Hakkı tebliğ ederken kınayanların kınamasından korkmamak ve ilk olarak en yakınlardan başlamak gerektiğini öğretir.",
+                icon: "fa-bullhorn"
+            },
+            {
+                id: 11,
+                period: "mekke",
+                periodName: "Mekke Dönemi",
+                dateStr: "M.S. 615 (Bi'setin 5. Yılı)",
+                title: "Habeşistan'a Hicretler ve Necâşî'nin Huzuru",
+                summary: "Mekke'de dayanılmaz işkencelere maruz kalan ilk Müslümanların (Hz. Osman ve Cafer b. Ebî Tâlib öncülüğünde) adil hükümdar Necâşî Ashame'nin ülkesi Habeşistan'a sığınması ve Meryem Suresi tilaveti.",
+                verses: [
+                    { surahId: 16, surahName: "Nahl", ayahNum: 41, text: "Zulme uğradıktan sonra Allah yolunda hicret edenleri, dünyada güzel bir yere yerleştireceğiz..." }
+                ],
+                lesson: "Dini ve inancı muhafaza etmek için fedakârlıkta bulunmanın ve adalet arayışının faziletini gösterir.",
+                icon: "fa-route"
+            },
+            {
+                id: 12,
+                period: "mekke",
+                periodName: "Mekke Dönemi",
+                dateStr: "M.S. 616 - 619 (Bi'setin 7-10. Yılları)",
+                title: "Şi'b-i Ebî Tâlib Boykotu ve Büyük Sabır İmtihanı",
+                summary: "Kureyş müşriklerinin Haşimoğullarına karşı kız alıp vermeme, ticaret yapmama ve görüşmeme maddelerini içeren zalimane bir boykot anlaşmasını Kâbe duvarına asması ve 3 yıllık açlık/sabır dönemi.",
+                verses: [
+                    { surahId: 2, surahName: "Bakara", ayahNum: 155, text: "Andolsun ki sizi biraz korku ve açlıkla, mallardan, canlardan ve ürünlerden eksiltmekle sınayacağız. Sabredenleri müjdele!" }
+                ],
+                lesson: "En çetin dünyevi ambargoların dahi samimi imanı ve kardeşlik bağını sarsamayacağını gösterir.",
+                icon: "fa-hand-fist"
+            },
+            {
+                id: 13,
+                period: "mekke",
+                periodName: "Mekke Dönemi",
+                dateStr: "M.S. 620 (Bi'setin 10. Yılı)",
+                title: "Hüzün Yılı (Âmü'l-Hüzn) ve Tâif Seferi",
+                summary: "Efendimiz'in en büyük iki desteği olan muhterem eşi Hz. Hatice ve amcası Ebû Tâlib'in vefatı. Akabinde İslam'ı tebliğ için gittiği Tâif'te taşlanması ve buna rağmen oradakilerin hidayeti için dua etmesi.",
+                verses: [
+                    { surahId: 93, surahName: "Duhâ", ayahNum: 6, text: "O seni bir yetim bulup barındırmadı mı? Seni yolunu kaybetmiş bulup doğru yola iletmedi mi?" }
+                ],
+                lesson: "Büyük davaların en ağır hüzünlerle yoğrulduğunu ve hakiki peygamber ahlakının intikam değil af ve dua olduğunu anlatır.",
+                icon: "fa-heart-crack"
+            },
+            {
+                id: 14,
+                period: "mekke",
+                periodName: "Mekke Dönemi",
+                dateStr: "M.S. 621 (27 Recep)",
+                title: "İsrâ ve Mi'râc Mucizesi: Beş Vakit Namazın Hediyesi",
+                summary: "Mescid-i Haram'dan Mescid-i Aksâ'ya gece yürüyüşü (İsrâ) ve oradan semâvatın en yüce makamı Sidretü'l-Müntehâ'ya yükseliş (Mi'râc). Müminlere beş vakit namaz, Bakara son ayetleri ve şirk koşmayanların affı müjdelendi.",
+                verses: [
+                    { surahId: 17, surahName: "İsrâ", ayahNum: 1, text: "Kendisine ayetlerimizden gösterelim diye kulunu bir gece Mescid-i Haram'dan Mescid-i Aksâ'ya götüren Allah her türlü eksiklikten münezzehtir." },
+                    { surahId: 53, surahName: "Necm", ayahNum: 13, text: "Andolsun onu bir diğer inişinde de görmüştü; Sidretü'l-Müntehâ'nın yanında." }
+                ],
+                lesson: "Dünyevi hüzün ve sıkıntıların ardından Allah'ın kuluna yüce ferahlıklar ve namaz gibi bir miraç bahşettiğini müjdeler.",
+                icon: "fa-moon"
+            },
+            {
+                id: 15,
+                period: "mekke",
+                periodName: "Mekke Dönemi",
+                dateStr: "M.S. 621 - 622 (Bi'setin 11-12. Yılları)",
+                title: "Akabe Biatları ve Medine'ye İslam'ın Girişi",
+                summary: "Medineli Evs ve Hazreç kabilelerinden heyetlerin Mekke yakınlarındaki Akabe mevkiinde Efendimiz'e biat etmesi, Hz. Mus'ab b. Umeyr'in ilk öğretmen olarak Medine'ye gönderilmesi ve şehrin İslam'a açılması.",
+                verses: [
+                    { surahId: 60, surahName: "Mümtehine", ayahNum: 12, text: "Ey Peygamber! İnanmış kadınlar sana biat etmeye geldiklerinde..." }
+                ],
+                lesson: "Bir ferdin samimi tebliğinin (Mus'ab b. Umeyr) koskoca bir şehrin kaderini değiştirebileceğini ispatlar.",
+                icon: "fa-handshake"
+            },
+            {
+                id: 16,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 622 (Rebîülevvel / 1 H.)",
+                title: "Büyük Hicret: Sevr Mağarası ve Medine'ye Teşrif",
+                summary: "Müşriklerin suikast planını Hz. Ali'yi yatağına yatırarak boşa çıkaran Efendimiz'in, Hz. Ebû Bekir ile birlikte Sevr Mağarası'ndan geçerek Kuba'ya ve ardından Medine-i Münevvere'ye tarihi hicreti.",
+                verses: [
+                    { surahId: 9, surahName: "Tevbe", ayahNum: 40, text: "Hani o iki kişiden biri iken, ikisi mağaradaydılar; hani o arkadaşına: 'Üzülme, şüphesiz Allah bizimle beraberdir' diyordu." }
+                ],
+                lesson: "'Lâ tahzen, innallâhe meânâ' (Üzülme, Allah bizimledir) bilincinin her türlü tuzağı yerle bir edeceğini gösterir.",
+                icon: "fa-compass"
+            },
+            {
+                id: 17,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 622 (1 H.)",
+                title: "Mescid-i Nebevî'nin İnşası ve Muâhât (Kardeşlik Bağı)",
+                summary: "Medine'de ilk iş olarak Mescid-i Nebevî ve Ashâb-ı Suffe mektebinin inşa edilmesi. Mekkeli Muhacirler ile Medineli Ensar arasında tarihte eşi benzeri olmayan kardeşlik (Muâhât) akdinin tesisi.",
+                verses: [
+                    { surahId: 59, surahName: "Haşr", ayahNum: 9, text: "Kendileri ihtiyaç içinde bulunsalar bile onları kendilerine tercih ederler. Kim nefsinin cimriliğinden korunursa, işte onlar kurtuluşa erenlerdir." }
+                ],
+                lesson: "İslam toplumunun temel harcının sevgi, fedakârlık ve karşılıksız paylaşım (îsâr) olduğunu gösterir.",
+                icon: "fa-mosque"
+            },
+            {
+                id: 18,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 624 (Şaban 2 H.)",
+                title: "Kıblenin Kâbe'ye Çevrilmesi ve Ramazan Orucunun Farz Kılınması",
+                summary: "16-17 ay boyunca Kudüs'teki Mescid-i Aksâ'ya doğru kılınan namazların kıblesinin nazil olan ayetle Kâbe-i Muazzama'ya çevrilmesi (Mescid-i Kıbleteyn) ve Ramazan ayı orucunun farz kılınması.",
+                verses: [
+                    { surahId: 2, surahName: "Bakara", ayahNum: 144, text: "Yüzünü Mescid-i Haram tarafına çevir. Nerede olursanız yüzlerinizi o yöne çevirin." },
+                    { surahId: 2, surahName: "Bakara", ayahNum: 183, text: "Ey iman edenler! Oruç, sizden öncekilere farz kılındığı gibi size de farz kılındı..." }
+                ],
+                lesson: "İslam ümmetinin istiklalini, birlik kıblesini ve nefis terbiyesinde orucun arındırıcı gücünü temsil eder.",
+                icon: "fa-arrows-spin"
+            },
+            {
+                id: 19,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 624 (17 Ramazan 2 H.)",
+                title: "Bedir Gazvesi: Hak ile Bâtılın Ayrıldığı Gün (Yevmü'l-Furkan)",
+                summary: "313 kişilik mütevazı İslam ordusunun, meleklerin yardımıyla 1000 kişilik tam teçhizatlı müşrik ordusunu hezimete uğrattığı, Ebû Cehil gibi küfür önderlerinin öldürüldüğü ilk büyük zafer.",
+                verses: [
+                    { surahId: 8, surahName: "Enfâl", ayahNum: 9, text: "Hani siz Rabbinizden yardım istiyordunuz da O: 'Ben peş peşe gelen bin melekle size yardım edeceğim' diyerek duanızı kabul etmişti." },
+                    { surahId: 3, surahName: "Âl-i İmrân", ayahNum: 123, text: "Andolsun, sizler güçsüz iken Allah size Bedir'de yardım etmişti." }
+                ],
+                lesson: "Zaferin sayı ve teçhizatta değil, samimi iman, dua ve Allah'ın yardımında olduğunu ortaya koyar.",
+                icon: "fa-shield-halved"
+            },
+            {
+                id: 20,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 625 (Şevval 3 H.)",
+                title: "Uhud Gazvesi: Okçular Tepesi ve İtaat Dersi",
+                summary: "Bedir'in intikamını almak isteyen 3000 kişilik müşrik ordusuna karşı Uhud Dağı eteklerinde yapılan savaş. Okçular Tepesi'ndeki emre itaatsizlik sonucu Hz. Hamza (r.a.) dahil 70 şehit verilen ibret dolu hadise.",
+                verses: [
+                    { surahId: 3, surahName: "Âl-i İmrân", ayahNum: 121, text: "Hani sen müminleri savaş mevzilerine yerleştirmek için erkenden ailenden ayrılmıştın..." },
+                    { surahId: 3, surahName: "Âl-i İmrân", ayahNum: 152, text: "Andolsun, Allah size olan vaadini yerine getirmişti..." }
+                ],
+                lesson: "Lidere ve nizama itaatsizliğin, dünyalık ganimet arzusunun en büyük zaferleri dahi tehlikeye düşüreceğini öğretir.",
+                icon: "fa-mountain-sun"
+            },
+            {
+                id: 21,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 627 (Şevval 5 H.)",
+                title: "Hendek (Ahzâb) Gazvesi: Kuşatma ve İlahi Fırtına",
+                summary: "Müşrikler, Yahudiler ve Bedevi kabilelerden oluşan 10.000 kişilik müttefik ordusunun Medine'yi kuşatması. Selmân-ı Fârisî'nin teklifiyle hendek kazılması ve dondurucu bir fırtınayla düşmanın püskürtülmesi.",
+                verses: [
+                    { surahId: 33, surahName: "Ahzâb", ayahNum: 9, text: "Ey iman edenler! Allah'ın size olan nimetini hatırlayın; hani üzerinize ordular gelmişti de biz onların üzerine bir rüzgâr göndermiştik..." }
+                ],
+                lesson: "Akıl, istişare ve tedbirin (hendek) ardından gelen tevekkülün en çaresiz anlarda dahi ilahi zafer getireceğini gösterir.",
+                icon: "fa-wind"
+            },
+            {
+                id: 22,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 628 (Zilkade 6 H.)",
+                title: "Hudeybiye Barışı ve Rıdvan Biatı: Feth-i Mübîn",
+                summary: "Umre için yola çıkan Müslümanların Hudeybiye'de durdurulması, Semure ağacı altında canları pahasına Rıdvan Biatı yapılması ve görünüşte aleyhte sanılan ancak İslam'ın hızla yayılmasını sağlayan 10 yıllık barış antlaşması.",
+                verses: [
+                    { surahId: 48, surahName: "Fetih", ayahNum: 1, text: "Şüphesiz biz sana apaçık bir fetih (Feth-i Mübîn) verdik." },
+                    { surahId: 48, surahName: "Fetih", ayahNum: 18, text: "Andolsun ki o ağacın altında sana biat ederlerken Allah müminlerden razı olmuştur..." }
+                ],
+                lesson: "Bazen geri adım gibi görünen sulh ve diplomasinin, savaştan çok daha büyük fetihlere kapı aralayacağını bildirir.",
+                icon: "fa-file-contract"
+            },
+            {
+                id: 23,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 628 (Muharrem 7 H.)",
+                title: "Hayber'in Fethi ve Hükümdarlara Davet Mektupları",
+                summary: "İhanet ve fitne merkezi haline gelen muhkem Hayber kalelerinin Hz. Ali'nin kahramanlığıyla fethedilmesi. Ardından Bizans, Sasani, Mısır ve Habeşistan hükümdarlarına İslam'a davet mektupları gönderilmesi.",
+                verses: [
+                    { surahId: 48, surahName: "Fetih", ayahNum: 20, text: "Allah size alacağınız birçok ganimetler vaad etti; bunu size hemen verdi..." }
+                ],
+                lesson: "İslam davetinin evrensel olduğunu ve hiçbir engelin hakkın çağrısını durduramayacağını ilan eder.",
+                icon: "fa-envelope-open-text"
+            },
+            {
+                id: 24,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 630 (20 Ramazan 8 H.)",
+                title: "Mekke'nin Fethi: 'Hak Geldi, Bâtıl Zâil Oldu'",
+                summary: "Kureyş'in antlaşmayı bozması üzerine 10.000 kişilik muhteşem ordusuyla Mekke'ye kansız giren Efendimiz'in Kâbe'deki 360 putu devirmesi, başı tevazu ile devesinin semerine değecek kadar eğik girmesi ve Mekkelilere genel af ilan etmesi.",
+                verses: [
+                    { surahId: 17, surahName: "İsrâ", ayahNum: 81, text: "De ki: 'Hak geldi, bâtıl zâil oldu. Şüphesiz bâtıl yok olmaya mahkûmdur.'" },
+                    { surahId: 110, surahName: "Nasr", ayahNum: 1, text: "Allah'ın yardımı ve fetih geldiği zaman..." }
+                ],
+                lesson: "En büyük zafer gününde dahi kibre kapılmayıp sonsuz tevazu göstermeyi ve affediciliğin büyüklüğünü öğretir.",
+                icon: "fa-flag"
+            },
+            {
+                id: 25,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 630 (Recep 9 H.)",
+                title: "Tebük Seferi (Gazvetü'l-Usre): Sadakat İmtihanı",
+                summary: "Kavurucu yaz sıcağında, Bizans ordusuna karşı Medine'den Suriye sınırına yapılan en uzun ve en zorlu sefer. Hz. Ebû Bekir'in tüm malını, Hz. Osman'ın ordunun üçte birini donattığı büyük infak destanı.",
+                verses: [
+                    { surahId: 9, surahName: "Tevbe", ayahNum: 117, text: "Andolsun ki Allah Peygamber'i ve o güçlük saatinde (saatü'l-usre) ona uyan Muhacirlerle Ensar'ı affetti..." }
+                ],
+                lesson: "Darlık ve zorluk anlarında infak ve sadakatin mümin ile münafığı birbirinden ayıran kesin ölçü olduğunu gösterir.",
+                icon: "fa-sun"
+            },
+            {
+                id: 26,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 632 (Zilhicce 10 H.)",
+                title: "Vedâ Haccı, Vedâ Hutbesi ve Dinin Kemâle Ermesi",
+                summary: "100.000'i aşkın sahabiyle Arafat meydanında okunan evrensel İnsan Hakları Beyannamesi niteliğindeki Vedâ Hutbesi: Can, mal ve namus dokunulmazlığı, ırk üstünlüğünün reddi ('Arabın Aceme üstünlüğü yoktur'), kadın hakları ve faizin yasaklanması.",
+                verses: [
+                    { surahId: 5, surahName: "Mâide", ayahNum: 3, text: "Bugün sizin dininizi kemâle erdirdim, üzerinizdeki nimetimi tamamladım ve size din olarak İslam'ı seçip razı oldum." }
+                ],
+                lesson: "Tüm insanların eşitliğini, adaleti, emanet şuurunu ve Kur'an ile Sünnete sarılmanın kıyamete kadar tek kurtuluş olduğunu bildirir.",
+                icon: "fa-users"
+            },
+            {
+                id: 27,
+                period: "medine",
+                periodName: "Medine Dönemi",
+                dateStr: "M.S. 632 (12 Rebîülevvel 11 H.)",
+                title: "Fahr-i Kâinat Efendimiz'in (s.a.v.) Refîk-i A'lâ'ya İrtihâli",
+                summary: "63 yıllık kutlu ömrünü tamamlayan İki Cihan Güneşi Efendimiz'in Medine'de Mescid-i Nebevî bitişiğindeki Hücre-i Saâdet'te Yüce Dost'a (er-Refîku'l-A'lâ) kavuşması. Hz. Ebû Bekir'in 'Muhammed'e tapan bilsin ki o vefat etti; Allah'a tapan bilsin ki O diridir' hitabı.",
+                verses: [
+                    { surahId: 3, surahName: "Âl-i İmrân", ayahNum: 144, text: "Muhammed ancak bir peygamberdir. Ondan önce de peygamberler gelip geçmiştir. Şimdi o ölür veya öldürülürse gerisin geriye mi döneceksiniz?" }
+                ],
+                lesson: "Fani şahısların gelip geçici, baki olanın ise yalnızca Âlemlerin Rabbi Allah ve O'nun dini olduğunu idrak ettirir.",
+                icon: "fa-heart"
+            },
+            {
+                id: 28,
+                period: "halifeler",
+                periodName: "Dört Halife Dönemi",
+                dateStr: "M.S. 632 - 634 (11 - 13 H.)",
+                title: "Hz. Ebû Bekir (r.a.) Dönemi ve Kur'an'ın Mushaf Haline Getirilmesi",
+                summary: "İlk halife Hz. Sıddîk'ın irtidad hareketlerini bastırması, Yemâme Savaşı'nda hafız sahabelerin şehit düşmesi üzerine Hz. Ömer'in teklifiyle Zeyd b. Sâbit başkanlığındaki heyet tarafından Kur'an ayetlerinin iki kapak arasında ilk kez Mushaf (İmam Mushaf) haline toplanması.",
+                verses: [
+                    { surahId: 15, surahName: "Hicr", ayahNum: 9, text: "Şüphesiz o Zikr'i (Kur'an'ı) biz indirdik ve onu mutlaka biz koruyacağız." }
+                ],
+                lesson: "Kur'an-ı Kerim'in tek bir harfi dahi zayi olmadan en titiz usullerle (iki şahit ve yazılı belge) muhafaza altına alındığını gösterir.",
+                icon: "fa-book-bookmark"
+            },
+            {
+                id: 29,
+                period: "halifeler",
+                periodName: "Dört Halife Dönemi",
+                dateStr: "M.S. 634 - 644 (13 - 23 H.)",
+                title: "Hz. Ömer (r.a.) Dönemi: Adalet Nizamı, Fütûhât ve Hicri Takvim",
+                summary: "Fâruk-ı A'zam Hz. Ömer devrinde Kudüs, Suriye, Filistin, Irak, İran ve Mısır'ın fethi. Beytülmal, kadılık ve divan teşkilatlarının kurulması; Hz. Ali'nin teklifiyle Hicret'in başlangıç kabul edildiği Hicri Takvim'in tanzimi.",
+                verses: [
+                    { surahId: 4, surahName: "Nisâ", ayahNum: 58, text: "Allah size emanetleri ehline vermenizi ve insanlar arasında hükmettiğiniz zaman adaletle hükmetmenizi emreder." }
+                ],
+                lesson: "Adaletin mülkün temeli olduğunu, hakiki yöneticiliğin halkın hizmetkârı olmak anlamına geldiğini öğretir.",
+                icon: "fa-scale-balanced"
+            },
+            {
+                id: 30,
+                period: "halifeler",
+                periodName: "Dört Halife Dönemi",
+                dateStr: "M.S. 644 - 656 (23 - 35 H.)",
+                title: "Hz. Osman (r.a.) Dönemi ve Kur'an Mushaflarının Çoğaltılması",
+                summary: "Zinnûreyn Hz. Osman döneminde İslam coğrafyasının Kafkaslar'dan Kuzey Afrika'ya genişlemesi; farklı lehçe okuyuş ihtilaflarını önlemek amacıyla Hz. Ebû Bekir nüshasının Kureyş lehçesi esas alınarak 7 nüsha halinde çoğaltılıp ana merkezlere (Mekke, Kufe, Basra, Şam, Yemen, Bahreyn) gönderilmesi.",
+                verses: [
+                    { surahId: 15, surahName: "Hicr", ayahNum: 9, text: "Şüphesiz o Zikr'i biz indirdik ve onun koruyucusu da elbette biziz." }
+                ],
+                lesson: "Kur'an-ı Kerim'in kıyamete kadar ümmetin vahdet bağı ve tek ortak metni olarak korunmasını temin etmiştir.",
+                icon: "fa-copy"
+            },
+            {
+                id: 31,
+                period: "halifeler",
+                periodName: "Dört Halife Dönemi",
+                dateStr: "M.S. 656 - 661 (35 - 40 H.)",
+                title: "Hz. Ali (r.a.) Dönemi: İlim Kapısı ve Hakkaniyet Mücadelesi",
+                summary: "Efendimiz'in 'Ben ilmin şehriyim, Ali onun kapısıdır' buyurduğu Haydar-ı Kerrâr Hz. Ali'nin çetin fitne ve imtihanlar karşısında tavizsiz adalet, takva ve hikmet rehberliği.",
+                verses: [
+                    { surahId: 9, surahName: "Tevbe", ayahNum: 119, text: "Ey iman edenler! Allah'tan korkun ve doğrularla beraber olun." }
+                ],
+                lesson: "Zor zamanlarda Hakk'ın hatırını her şeyin üstünde tutmanın ve ilimle amel etmenin önemini gösterir.",
+                icon: "fa-book-open-reader"
+            },
+            {
+                id: 32,
+                period: "mushaf",
+                periodName: "Kur'an & Mushaf Tarihi",
+                dateStr: "M.S. 610 - 632",
+                title: "Vahiy Kâtipleri ve İlk Yazım Materyalleri",
+                summary: "Nazil olan ayetlerin Efendimiz'in emriyle vahiy kâtipleri (Zeyd b. Sâbit, Hz. Ali, Ubey b. Ka'b, Hz. Osman vb.) tarafından hurma yaprakları, yassı kemikler, beyaz taşlar ve deri parçaları üzerine günü gününe kaydedilip hafızlarca ezberlenmesi.",
+                verses: [
+                    { surahId: 68, surahName: "Kalem", ayahNum: 1, text: "Nûn. Kaleme ve satır satır yazdıklarına andolsun!" },
+                    { surahId: 80, surahName: "Abese", ayahNum: 15, text: "Kâtiplerin ellerinde bulunan, çok şerefli, tertemiz sahifelerdedir." }
+                ],
+                lesson: "Kur'an'ın hem ezber (hıfz) hem de yazı (kitabet) yoluyla çift emniyetle korunduğunu gösterir.",
+                icon: "fa-pen-nib"
+            },
+            {
+                id: 33,
+                period: "mushaf",
+                periodName: "Kur'an & Mushaf Tarihi",
+                dateStr: "M.S. 680 - 780 (Emevîler / Abbâsîler)",
+                title: "Arapça Noktalama ve Harekeleme Sisteminin Geliştirilmesi",
+                summary: "Arap olmayan milletlerin İslam'a girmesiyle Kur'an'ın doğru okunmasını temin etmek için Ebü'l-Esved ed-Düelî, Nasr b. Âsım ve Halil b. Ahmed el-Ferâhîdî tarafından harekelerin (üstün, esre, ötre) ve harf noktalarının sisteme bağlanması.",
+                verses: [
+                    { surahId: 54, surahName: "Kamer", ayahNum: 17, text: "Andolsun biz Kur'an'ı düşünüp öğüt almak için kolaylaştırdık. Yok mu düşünüp öğüt alan?" }
+                ],
+                lesson: "İlahi kelamın tüm diller ve milletler tarafından hatasız okunması için sergilenen muazzam ilmi hassasiyeti temsil eder.",
+                icon: "fa-spell-check"
+            },
+            {
+                id: 34,
+                period: "mushaf",
+                periodName: "Kur'an & Mushaf Tarihi",
+                dateStr: "Tarihten Günümüze",
+                title: "Hattatların Göz Nuru: Hat Sanatı ve Matbu Mushaflar",
+                summary: "Şeyh Hamdullah, Ahmed Karahisârî ve Hafız Osman gibi Osmanlı hattatlarının yazdığı eşsiz mushaf nüshaları; matbaanın icadıyla tüm dünyada milyonlarca basılıp okunan bugünkü kusursuz Medine ve Diyanet mushafları.",
+                verses: [
+                    { surahId: 85, surahName: "Bürûc", ayahNum: 21, text: "Hayır! O, şerefli bir Kur'an'dır; Levh-i Mahfuz'dadır." }
+                ],
+                lesson: "Kur'an-ı Kerim'in lafzı, manası ve hattıyla kıyamete kadar dimdik ayakta kalan ebedi mucize olduğunu haykırır.",
+                icon: "fa-book-quran"
+            }
+        ];
+
+        let currentHistoryPeriod = 'all';
+        let currentHistorySearchQuery = '';
+
+        function initHistoryView() {
+            renderHistoryCards(getFilteredHistoryData());
+        }
+
+        function getFilteredHistoryData() {
+            return ISLAMIC_HISTORY_DATA.filter(item => {
+                const matchesPeriod = currentHistoryPeriod === 'all' || item.period === currentHistoryPeriod;
+                const q = currentHistorySearchQuery.toLowerCase();
+                const matchesSearch = !q || 
+                    item.title.toLowerCase().includes(q) ||
+                    item.summary.toLowerCase().includes(q) ||
+                    item.periodName.toLowerCase().includes(q) ||
+                    item.dateStr.toLowerCase().includes(q) ||
+                    item.lesson.toLowerCase().includes(q) ||
+                    item.verses.some(v => v.surahName.toLowerCase().includes(q) || v.text.toLowerCase().includes(q));
+                return matchesPeriod && matchesSearch;
+            });
+        }
+
+        function renderHistoryCards(data) {
+            const container = document.getElementById('history-list-container');
+            const countText = document.getElementById('history-count-text');
+            if (!container) return;
+
+            countText.innerText = `${data.length} Tarihi Hadise`;
+
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="py-16 text-center bg-gray-900/60 rounded-2xl border border-gray-800 space-y-3">
+                        <i class="fa-solid fa-landmark-dome text-gray-600 text-4xl"></i>
+                        <p class="text-gray-400 text-sm">Aradığınız kriterlere uygun tarihi hadise bulunamadı.</p>
+                        <button onclick="clearHistorySearch()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition">Filtreleri Temizle</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            data.forEach((item, index) => {
+                let versesHtml = '';
+                item.verses.forEach(v => {
+                    versesHtml += `
+                        <div class="flex items-start justify-between gap-3 p-3 bg-gray-950/80 rounded-xl border border-gray-800/80">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-xs font-bold text-emerald-400">${escapeHtml(v.surahName)} Suresi, ${v.ayahNum}. Ayet</span>
+                                </div>
+                                <p class="text-xs text-gray-300 italic">"${escapeHtml(v.text)}"</p>
+                            </div>
+                            <button onclick="openSurah(${v.surahId})" class="px-2.5 py-1 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-800/80 rounded-lg text-[11px] font-semibold transition whitespace-nowrap flex items-center gap-1">
+                                <span>Sureyi Aç</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+
+                html += `
+                    <div class="history-card bg-gray-900/80 border border-gray-800 hover:border-gray-700 rounded-2xl p-5 sm:p-6 transition-all duration-200 shadow-md space-y-4 relative">
+                        <!-- Üst Bar: Tarih & Dönem Rozetleri -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-gray-800/80 text-xs">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="px-2.5 py-1 rounded-lg bg-amber-950 text-amber-300 font-bold border border-amber-800/60 font-mono flex items-center gap-1.5">
+                                    <i class="fa-solid fa-calendar-days text-[11px]"></i> ${escapeHtml(item.dateStr)}
+                                </span>
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-950/70 text-emerald-400 font-semibold border border-emerald-800/40 text-[11px]">
+                                    ${escapeHtml(item.periodName)}
+                                </span>
+                            </div>
+
+                            <!-- Aksiyon Butonları (Sesli Dinle, WhatsApp Paylaş) -->
+                            <div class="flex items-center gap-1.5 text-gray-400">
+                                <button onclick="speakHistoryEvent(${item.id})" class="px-2.5 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition text-xs font-semibold flex items-center gap-1.5" title="Sesli Oku">
+                                    <i class="fa-solid fa-volume-high text-amber-400 text-xs"></i> <span>Dinle</span>
+                                </button>
+                                <button onclick="shareHistoryOnWhatsApp(${item.id})" class="p-2 hover:bg-emerald-900/30 text-emerald-500 hover:text-emerald-400 rounded-lg transition" title="WhatsApp'ta Paylaş">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Başlık -->
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-950/50 border border-amber-800/40 text-amber-400 flex items-center justify-center text-base shrink-0 mt-0.5">
+                                <i class="fa-solid ${item.icon}"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base sm:text-lg font-bold text-white tracking-tight">${escapeHtml(item.title)}</h3>
+                                <p class="text-xs sm:text-sm text-gray-300 leading-relaxed mt-1">${escapeHtml(item.summary)}</p>
+                            </div>
+                        </div>
+
+                        <!-- İlgili Kur'an Ayetleri -->
+                        <div class="space-y-2 pt-1">
+                            <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-book-quran text-xs"></i> Kur'an-ı Kerim'deki İlgili Ayetler
+                            </h4>
+                            <div class="space-y-2">
+                                ${versesHtml}
+                            </div>
+                        </div>
+
+                        <!-- Manevi / Ahlaki Hikmet & Çıkarılacak Ders -->
+                        <div class="p-3.5 bg-amber-950/20 border border-amber-800/30 rounded-xl text-xs text-amber-200/90 leading-relaxed flex items-start gap-2.5">
+                            <i class="fa-solid fa-lightbulb text-amber-400 text-sm mt-0.5 shrink-0"></i>
+                            <div>
+                                <strong class="text-amber-300 font-semibold">Tarihi & Manevi Hikmet:</strong> ${escapeHtml(item.lesson)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function filterHistoryByPeriod(period) {
+            currentHistoryPeriod = period;
+            document.querySelectorAll('.history-period-btn').forEach(btn => {
+                if (btn.getAttribute('data-period') === period) {
+                    btn.className = 'history-period-btn active px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 text-white transition whitespace-nowrap';
+                } else {
+                    btn.className = 'history-period-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap';
+                }
+            });
+            renderHistoryCards(getFilteredHistoryData());
+        }
+
+        function onHistorySearchInput() {
+            const input = document.getElementById('history-search-input');
+            const clearBtn = document.getElementById('history-clear-btn');
+            currentHistorySearchQuery = input.value.trim();
+
+            if (currentHistorySearchQuery) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            renderHistoryCards(getFilteredHistoryData());
+        }
+
+        function clearHistorySearch() {
+            const input = document.getElementById('history-search-input');
+            input.value = '';
+            document.getElementById('history-clear-btn').classList.add('hidden');
+            currentHistorySearchQuery = '';
+            filterHistoryByPeriod('all');
+        }
+
+        function shareHistoryOnWhatsApp(id) {
+            const item = ISLAMIC_HISTORY_DATA.find(h => h.id === id);
+            if (!item) return;
+
+            let msg = `[ İSLÂM TARİHİ KRONOLOJİSİ ]\n`;
+            msg += `*${cleanForWhatsApp(item.title)}*\n`;
+            msg += `Tarih: ${cleanForWhatsApp(item.dateStr)} (${cleanForWhatsApp(item.periodName)})\n\n`;
+            msg += `Hadise:\n> "${cleanForWhatsApp(item.summary)}"\n\n`;
+            
+            if (item.verses && item.verses.length > 0) {
+                msg += `İlgili Ayetler:\n`;
+                item.verses.forEach(v => {
+                    msg += `• ${v.surahName} ${v.ayahNum}: "${cleanForWhatsApp(v.text)}"\n`;
+                });
+                msg += `\n`;
+            }
+
+            msg += `Manevi Hikmet:\n"${cleanForWhatsApp(item.lesson)}"`;
+
+            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        function speakHistoryEvent(id) {
+            const item = ISLAMIC_HISTORY_DATA.find(h => h.id === id);
+            if (!item) return;
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const textToSpeak = `${item.title}. ${item.dateStr}. ${item.summary}. İlgili hikmet: ${item.lesson}`;
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
+                utterance.lang = 'tr-TR';
+                utterance.rate = 0.95;
+                utterance.pitch = 0.95;
+                window.speechSynthesis.speak(utterance);
+                showToast('Tarihi hadise seslendiriliyor...');
+            } else {
+                showToast('Tarayıcınız sesli okumayı desteklemiyor', 'error');
+            }
         }
 
         // Ayeti Panoya Kopyalama (Tertemiz Format)
