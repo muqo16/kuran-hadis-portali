@@ -432,6 +432,13 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
                     <button onclick="switchView('search')" id="nav-search" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-emerald-600 text-white shadow-sm flex items-center gap-1.5 whitespace-nowrap">
                         <i class="fa-solid fa-magnifying-glass text-xs"></i> Arama
                     </button>
+                    <button onclick="switchView('learn')" id="nav-learn" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100/60 dark:bg-emerald-950/80 border border-emerald-500/60 hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+                        <i class="fa-solid fa-graduation-cap text-emerald-600 dark:text-emerald-400 text-sm"></i> Kur'an Öğreniyorum
+                        <span class="px-1.5 py-0.2 rounded-full bg-amber-500 text-gray-950 text-[9px] font-extrabold shadow-sm">YENİ</span>
+                    </button>
+                    <button onclick="switchView('history')" id="nav-history" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-100/60 dark:bg-amber-950/80 border border-amber-500/60 hover:bg-amber-600 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+                        <i class="fa-solid fa-landmark-dome text-amber-600 dark:text-amber-400 text-xs"></i> İslam Tarihi
+                    </button>
                     <button onclick="switchView('surahs')" id="nav-surahs" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
                         <i class="fa-solid fa-list-ol text-xs"></i> Sureler
                     </button>
@@ -447,20 +454,14 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
                     <button onclick="switchView('greetings')" id="nav-greetings" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
                         <i class="fa-brands fa-whatsapp text-emerald-600 dark:text-emerald-400 text-sm"></i> Cuma & Tebrik
                     </button>
-                    <button onclick="switchView('favorites')" id="nav-favorites" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-star text-amber-500 text-xs"></i> Favorilerim <span id="favorites-count-badge" class="text-[10px] px-1.5 py-0.2 bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 rounded-full font-bold">0</span>
+                    <button onclick="switchView('topics')" id="nav-topics" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
+                        <i class="fa-solid fa-tags text-xs text-teal-500"></i> Konu Dizini
                     </button>
                     <button onclick="switchView('sajdah')" id="nav-sajdah" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
                         <i class="fa-solid fa-hands-praying text-xs text-purple-500"></i> Secde Ayetleri
                     </button>
-                    <button onclick="switchView('topics')" id="nav-topics" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-tags text-xs text-teal-500"></i> Konu Dizini
-                    </button>
-                    <button onclick="switchView('history')" id="nav-history" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
-                        <i class="fa-solid fa-landmark-dome text-xs text-amber-500"></i> İslam Tarihi
-                    </button>
-                    <button onclick="switchView('learn')" id="nav-learn" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 border border-emerald-600/30 flex items-center gap-1.5 whitespace-nowrap shadow-sm">
-                        <i class="fa-solid fa-graduation-cap text-emerald-600 dark:text-emerald-400 text-sm"></i> Kur'an Öğreniyorum
+                    <button onclick="switchView('favorites')" id="nav-favorites" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
+                        <i class="fa-solid fa-star text-amber-500 text-xs"></i> Favorilerim <span id="favorites-count-badge" class="text-[10px] px-1.5 py-0.2 bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 rounded-full font-bold">0</span>
                     </button>
                 </nav>
             </div>
@@ -593,6 +594,46 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
                                 </button>
                             <?php endforeach; ?>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- Kur'an Öğreniyorum & İslam Tarihi Hızlı Keşif Kartları -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                <div onclick="switchView('learn')" class="cursor-pointer bg-gradient-to-r from-emerald-950/80 via-teal-950/80 to-gray-900/90 border border-emerald-700/60 hover:border-emerald-400 p-4 sm:p-4.5 rounded-2xl transition-all shadow-lg hover:scale-[1.01] flex items-center justify-between gap-3 group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-900/90 border border-emerald-600/60 text-emerald-300 flex items-center justify-center text-xl shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-sm font-bold text-white group-hover:text-emerald-300 transition">Kur'an Öğreniyorum (Elif-Bâ)</h3>
+                                <span class="px-1.5 py-0.2 rounded-full bg-amber-500 text-gray-950 text-[9px] font-extrabold">YENİ</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mt-0.5">28 Harf, harekeler, tecvid ve sesli testlerle A'dan Z'ye öğrenin.</p>
+                        </div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-emerald-900/50 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition shrink-0">
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </div>
+                </div>
+
+                <div onclick="switchView('history')" class="cursor-pointer bg-gradient-to-r from-amber-950/80 via-yellow-950/80 to-gray-900/90 border border-amber-700/60 hover:border-amber-400 p-4 sm:p-4.5 rounded-2xl transition-all shadow-lg hover:scale-[1.01] flex items-center justify-between gap-3 group">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-amber-900/90 border border-amber-600/60 text-amber-300 flex items-center justify-center text-xl shrink-0 group-hover:bg-amber-600 group-hover:text-white transition">
+                            <i class="fa-solid fa-landmark-dome"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-sm font-bold text-white group-hover:text-amber-300 transition">İslam Tarihi Fihristi</h3>
+                                <span class="px-1.5 py-0.2 rounded-full bg-amber-500 text-gray-950 text-[9px] font-extrabold">34 Hadise</span>
+                            </div>
+                            <p class="text-xs text-gray-300 mt-0.5">Peygamberler, gazveler, halifeler ve ayet bağlantıları.</p>
+                        </div>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-amber-900/50 flex items-center justify-center text-amber-400 group-hover:bg-amber-600 group-hover:text-white transition shrink-0">
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
                     </div>
                 </div>
             </div>
