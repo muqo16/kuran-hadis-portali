@@ -3819,22 +3819,34 @@ Türkçe Meali:
                 }
 
                 html += `
-                    <div onclick="playLearnLetter('${letter.sound}', '${letter.ar}')" class="group bg-gray-900/80 hover:bg-emerald-950/40 border border-gray-800 hover:border-emerald-500/80 rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 shadow-md hover:scale-105 relative flex flex-col justify-between space-y-3">
+                    <div onclick="playLearnLetter('${letter.sound}', '${letter.ar}')" class="group bg-gray-900/90 hover:bg-emerald-950/40 border border-gray-800 hover:border-emerald-500/80 rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 shadow-md hover:scale-[1.03] relative flex flex-col justify-between space-y-2.5">
+                        <!-- Üst Bar: Numara & Karakter Rozeti -->
                         <div class="flex items-center justify-between text-[11px]">
                             <span class="font-mono text-gray-500 font-bold">#${letter.id}</span>
                             <span class="px-2 py-0.5 rounded-full border text-[10px] font-bold ${badgeClass}">${badgeLabel}</span>
                         </div>
-                        <div class="py-2">
-                            <span class="text-4xl sm:text-5xl font-quran text-gray-100 group-hover:text-emerald-400 transition-colors block select-none" dir="rtl">${letter.ar}</span>
-                            <h4 class="text-sm font-bold text-white mt-2">${letter.name}</h4>
-                            <span class="text-xs text-gray-400 font-mono">(${letter.translit})</span>
+
+                        <!-- Arapça Harf Kutusu (Geniş Yükseklik & Sıfır Çakışma) -->
+                        <div class="h-20 sm:h-24 flex items-center justify-center pt-2">
+                            <span class="text-5xl sm:text-6xl font-quran text-gray-100 group-hover:text-emerald-400 transition-all select-none block leading-none drop-shadow" dir="rtl">${letter.ar}</span>
                         </div>
-                        <div class="pt-2 border-t border-gray-800/60 text-[11px] text-gray-400 leading-snug">
-                            <span class="text-amber-400/90 font-semibold block text-[10px]">💡 İpucu:</span>
-                            <span class="text-[10px] text-gray-300 line-clamp-2">${letter.mnemonic}</span>
+
+                        <!-- Harf İsmi ve Okunuşu -->
+                        <div class="space-y-0.5 border-t border-gray-800/80 pt-2">
+                            <h4 class="text-sm sm:text-base font-bold text-white tracking-wide">${letter.name}</h4>
+                            <span class="text-xs text-emerald-400/90 font-mono font-semibold block">(${letter.translit})</span>
                         </div>
-                        <div class="pt-1 flex items-center justify-center text-emerald-400 text-xs gap-1 group-hover:underline">
-                            <i class="fa-solid fa-volume-high text-[11px]"></i> <span>Dinle</span>
+
+                        <!-- Hafıza İpucu -->
+                        <div class="bg-gray-950/70 p-2 rounded-xl border border-gray-800/50 text-[11px] text-gray-300 leading-snug min-h-[48px] flex items-center justify-center">
+                            <p class="text-[11px] text-gray-300 text-center">
+                                <span class="text-amber-400 font-semibold">💡</span> ${letter.mnemonic}
+                            </p>
+                        </div>
+
+                        <!-- Ses Butonu -->
+                        <div class="pt-1 flex items-center justify-center text-emerald-400 text-xs font-semibold gap-1.5 group-hover:text-emerald-300 transition">
+                            <i class="fa-solid fa-volume-high text-xs"></i> <span>Tıkla & Dinle</span>
                         </div>
                     </div>
                 `;
