@@ -1087,37 +1087,37 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
                     </div>
                 </div>
 
-                <!-- 8 Aşamalı Ders Adımları (Stepper Pills) -->
-                <div class="flex items-center gap-2 overflow-x-auto pt-2 pb-1 no-scrollbar" id="learn-step-pills">
-                    <button onclick="setLearnTab('alphabet')" class="learn-tab-btn active px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition whitespace-nowrap flex items-center gap-1.5 shadow-sm" data-tab="alphabet">
+                <!-- 8 Aşamalı Ders Adımları (Stepper Pills - Responsive Wrap) -->
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-2 pb-1 w-full" id="learn-step-pills">
+                    <button onclick="setLearnTab('alphabet')" class="learn-tab-btn active px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white transition whitespace-nowrap flex items-center gap-1.5 shadow-sm" data-tab="alphabet">
                         <span class="w-4 h-4 rounded-full bg-white/20 text-white text-[10px] flex items-center justify-center">1</span>
                         <span>Harfler (Elif-Bâ)</span>
                     </button>
-                    <button onclick="setLearnTab('positions')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="positions">
+                    <button onclick="setLearnTab('positions')" class="learn-tab-btn px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="positions">
                         <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">2</span>
                         <span>Başta-Ortada-Sonda</span>
                     </button>
-                    <button onclick="setLearnTab('vowels')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="vowels">
+                    <button onclick="setLearnTab('vowels')" class="learn-tab-btn px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="vowels">
                         <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">3</span>
                         <span>Harekeler (E-İ-Ü)</span>
                     </button>
-                    <button onclick="setLearnTab('sukun_shaddah')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="sukun_shaddah">
+                    <button onclick="setLearnTab('sukun_shaddah')" class="learn-tab-btn px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="sukun_shaddah">
                         <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">4</span>
                         <span>Cezm & Şedde</span>
                     </button>
-                    <button onclick="setLearnTab('tanween')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="tanween">
+                    <button onclick="setLearnTab('tanween')" class="learn-tab-btn px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="tanween">
                         <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">5</span>
                         <span>Tenvinler (En-İn-Ün)</span>
                     </button>
-                    <button onclick="setLearnTab('madd')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="madd">
+                    <button onclick="setLearnTab('madd')" class="learn-tab-btn px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="madd">
                         <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">6</span>
                         <span>Uzatmalar (Med)</span>
                     </button>
-                    <button onclick="setLearnTab('tajweed')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="tajweed">
+                    <button onclick="setLearnTab('tajweed')" class="learn-tab-btn px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="tajweed">
                         <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">7</span>
                         <span>Kolay Tecvid</span>
                     </button>
-                    <button onclick="setLearnTab('quiz')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="quiz">
+                    <button onclick="setLearnTab('quiz')" class="learn-tab-btn px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="quiz">
                         <span class="w-4 h-4 rounded-full bg-amber-400 text-gray-900 text-[10px] font-bold flex items-center justify-center">8</span>
                         <span>Mini Test & İlk Sureler</span>
                     </button>
@@ -3632,9 +3632,9 @@ Türkçe Meali:
             currentLearnTab = tabName;
             document.querySelectorAll('.learn-tab-btn').forEach(btn => {
                 if (btn.getAttribute('data-tab') === tabName) {
-                    btn.className = 'learn-tab-btn active px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition whitespace-nowrap flex items-center gap-1.5 shadow-sm';
+                    btn.className = 'learn-tab-btn active px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white transition whitespace-nowrap flex items-center gap-1.5 shadow-sm';
                 } else {
-                    btn.className = 'learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5';
+                    btn.className = 'learn-tab-btn px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5';
                 }
             });
 
