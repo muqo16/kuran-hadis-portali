@@ -58,10 +58,22 @@ Hiçbir harici ağır framework veya karmaşık SQL kurulumu gerektirmez; tek bi
 * Türkçe kök, şapkalı harf ve yazım yanlışı toleransı (*"healal"* yazılsa dahi *"helal"* ayetlerini listeler).
 * Arama sonuçlarını tek tıkla `.txt` dosyası olarak indirme veya PDF/Yazıcıya gönderme.
 
-### 7. 👁️ Göz Dinlendiren Sıcak Krem & Koyu Tema
+### 7. 🎓 İnteraktif Kur'an Öğreniyorum (Elif-Bâ & Tecvid Akademisi)
+* **A'dan Z'ye 8 Aşamalı Müfredat:** Çocuklardan yetişkinlere herkesin kolayca Kur'an okumayı öğrenmesi için tasarlandı.
+* **28 Harf & Mahreç Kartları:** İnce, kalın ve peltek harf ayrımları, çocuklar için akılda kalıcı görsel benzetmeler ve tek tıkla sesli telaffuz.
+* **Harflerin Başta-Ortada-Sonda Halleri & Birleşmeyen 6 Harf:** İnteraktif kelime birleştirme örnekleri.
+* **Harekeler (Üstün, Esre, Ötre), Cezm & Şedde, Tenvinler, Uzatma (Med):** Sesli dinleme tahtası.
+* **Kolay Tecvid Rehberi:** Kalkale, İhfa, İzhar, İdgam, İklab ve Lafzatullah kuralları ve Kur'an'dan sesli örnekler.
+* **İnteraktif Mini Test & İlk Sureler:** Puanlı harf/kural tanıma testi, doğru/yanlış ses efektleri ve Fâtiha, İhlâs, Felak, Nâs sureleri okuma alanı.
+
+### 8. 🏛️ İslam Tarihi Fihristi & Kronolojisi
+* Peygamberler Tarihi, Mekke & Medine Dönemi, Gazveler, Dört Halife ve Mushaf Tarihini kapsayan 34 kapsamlı tarihi hadise.
+* Her hadisenin Kur'an'daki ilgili ayetleri, doğrudan o sureyi açan butonlar, manevi hikmetler, sesli okuma ve WhatsApp paylaşımı.
+
+### 9. 👁️ Göz Dinlendiren Sıcak Krem & Koyu Tema
 * Gözü yormayan dinlendirici **Sıcak Krem Açık Tema** (`#fbf8f1`).
 * Gece okumaları için OLED dostu derin **Koyu Tema** (`#030712`).
-* 9 ana sekmenin hiçbir ekranda taşmadığı iki kademeli responsive üst menü.
+* 10 ana sekmenin hiçbir ekranda taşmadığı responsive üst menü.
 
 ---
 

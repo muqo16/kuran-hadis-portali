@@ -459,6 +459,9 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
                     <button onclick="switchView('history')" id="nav-history" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap">
                         <i class="fa-solid fa-landmark-dome text-xs text-amber-500"></i> İslam Tarihi
                     </button>
+                    <button onclick="switchView('learn')" id="nav-learn" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 border border-emerald-600/30 flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+                        <i class="fa-solid fa-graduation-cap text-emerald-600 dark:text-emerald-400 text-sm"></i> Kur'an Öğreniyorum
+                    </button>
                 </nav>
             </div>
         </div>
@@ -1017,6 +1020,75 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
             <div id="history-list-container" class="space-y-4"></div>
         </section>
 
+                <!-- 11. GÖRÜNÜM: KUR'AN ÖĞRENİYORUM (İNTERAKTİF ELİF-BÂ VE TECVİD AKADEMİSİ) -->
+        <section id="view-learn" class="hidden space-y-6">
+            <!-- Üst Tanıtım Kartı -->
+            <div class="bg-gradient-to-r from-emerald-950/90 via-teal-950/90 to-gray-900/90 border border-emerald-800/60 p-5 sm:p-7 rounded-2xl space-y-4 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="space-y-1.5 max-w-2xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-900/60 border border-emerald-700/60 text-emerald-300 text-xs font-bold">
+                            <i class="fa-solid fa-sparkles text-amber-400"></i> Sıfırdan A'dan Z'ye İnteraktif Eğitim
+                        </div>
+                        <h2 class="text-xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
+                            <i class="fa-solid fa-book-open-reader text-emerald-400"></i> Kur'an Öğreniyorum
+                        </h2>
+                        <p class="text-xs sm:text-sm text-emerald-100/80 leading-relaxed">
+                            Çocuklardan yetişkinlere herkes için adım adım, sesli telaffuzlu, görsel hafıza teknikli ve uygulamalı Elif-Bâ & Tecvid Rehberi.
+                        </p>
+                    </div>
+                    <!-- Hızlı İstatistik & Puan Rozeti -->
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-gray-900/80 border border-emerald-800/40 rounded-xl text-center min-w-[100px]">
+                            <span class="block text-xl font-bold text-amber-400 font-mono" id="learn-score-badge">0 / 10</span>
+                            <span class="text-[10px] text-gray-400 uppercase font-semibold">Test Puanı</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8 Aşamalı Ders Adımları (Stepper Pills) -->
+                <div class="flex items-center gap-2 overflow-x-auto pt-2 pb-1 no-scrollbar" id="learn-step-pills">
+                    <button onclick="setLearnTab('alphabet')" class="learn-tab-btn active px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition whitespace-nowrap flex items-center gap-1.5 shadow-sm" data-tab="alphabet">
+                        <span class="w-4 h-4 rounded-full bg-white/20 text-white text-[10px] flex items-center justify-center">1</span>
+                        <span>Harfler (Elif-Bâ)</span>
+                    </button>
+                    <button onclick="setLearnTab('positions')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="positions">
+                        <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">2</span>
+                        <span>Başta-Ortada-Sonda</span>
+                    </button>
+                    <button onclick="setLearnTab('vowels')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="vowels">
+                        <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">3</span>
+                        <span>Harekeler (E-İ-Ü)</span>
+                    </button>
+                    <button onclick="setLearnTab('sukun_shaddah')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="sukun_shaddah">
+                        <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">4</span>
+                        <span>Cezm & Şedde</span>
+                    </button>
+                    <button onclick="setLearnTab('tanween')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="tanween">
+                        <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">5</span>
+                        <span>Tenvinler (En-İn-Ün)</span>
+                    </button>
+                    <button onclick="setLearnTab('madd')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="madd">
+                        <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">6</span>
+                        <span>Uzatmalar (Med)</span>
+                    </button>
+                    <button onclick="setLearnTab('tajweed')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="tajweed">
+                        <span class="w-4 h-4 rounded-full bg-white/10 text-gray-400 text-[10px] flex items-center justify-center">7</span>
+                        <span>Kolay Tecvid</span>
+                    </button>
+                    <button onclick="setLearnTab('quiz')" class="learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5" data-tab="quiz">
+                        <span class="w-4 h-4 rounded-full bg-amber-400 text-gray-900 text-[10px] font-bold flex items-center justify-center">8</span>
+                        <span>Mini Test & İlk Sureler</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- DERS İÇERİK PANELLERİ -->
+            <div id="learn-tab-content" class="space-y-6">
+                <!-- JavaScript Tarafından Dinamik Oluşturulacak -->
+            </div>
+        </section>
+
         <!-- 10. GÖRÜNÜM: SURE OKUYUCU (FULL SURAH READER) -->
         <section id="view-reader" class="hidden space-y-6">
             <!-- Sure Başlığı ve Kontrolleri -->
@@ -1280,7 +1352,7 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
 
         // Görünüm Değiştirici
         function switchView(viewName) {
-            const views = ['search', 'surahs', 'juz', 'pages', 'favorites', 'sajdah', 'topics', 'greetings', 'hadiths', 'history', 'reader'];
+            const views = ['search', 'surahs', 'juz', 'pages', 'favorites', 'sajdah', 'topics', 'greetings', 'hadiths', 'history', 'learn', 'reader'];
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (el) el.classList.add('hidden');
@@ -1305,6 +1377,7 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
             if (viewName === 'greetings') initGreetingsView();
             if (viewName === 'hadiths') loadHadiths();
             if (viewName === 'history') initHistoryView();
+            if (viewName === 'learn') initLearnView();
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -3263,6 +3336,852 @@ Türkçe Meali:
         }
 
         
+        
+        // =========================================================================
+        // KUR'AN ÖĞRENİYORUM: İNTERAKTİF ELİF-BÂ VE TECVİD AKADEMİSİ
+        // =========================================================================
+        const ALPHABET_DATA = [
+            { id: 1, ar: "ا", name: "Elif", translit: "E / A", type: "ince", makhraj: "Boğazın en altından, göğse yakın kısımdan çıkar.", mnemonic: "Dimdik duran düz bir elif çubuğu.", sound: "Elif" },
+            { id: 2, ar: "ب", name: "Be", translit: "B", type: "ince", makhraj: "İki dudağın iç kısımlarının birbirine kuvvetle vurulmasıyla çıkar.", mnemonic: "Altında tek bir noktası (incisi) olan tekne.", sound: "Be" },
+            { id: 3, ar: "ت", name: "Te", translit: "T", type: "ince", makhraj: "Dil ucunun üst ön dişlerin iç köklerine dokunmasıyla çıkar.", mnemonic: "İçinde iki gözü (noktası) olan gülen yüz teknesi.", sound: "Te" },
+            { id: 4, ar: "ث", name: "Se (Peltek)", translit: "S (Peltek)", type: "peltek", makhraj: "Dil ucu hafifçe üst ön dişlerin arasından dışarı çıkarılarak yumuşak okunur.", mnemonic: "Üzerinde üç tane noktası olan peltek harf teknesi.", sound: "Se" },
+            { id: 5, ar: "ج", name: "Cim", translit: "C", type: "ince", makhraj: "Dil ortasının üst damağa tam temas etmesiyle çıkar.", mnemonic: "Karnının içinde bir noktası olan hacıyatmaz.", sound: "Cim" },
+            { id: 6, ar: "ح", name: "Ha", translit: "H (Boğaz)", type: "ince", makhraj: "Boğazın tam ortasından, hafif bir hırıltı olmadan nefes sıkılarak çıkar.", mnemonic: "Noktasız, boğazı ferahlatan temiz Ha harfi.", sound: "Ha" },
+            { id: 7, ar: "خ", name: "Hı", translit: "H (Hırıltılı)", type: "kalin", makhraj: "Boğazın ağza en yakın üst kısmından, hafif hırıltıyla çıkar.", mnemonic: "Başının üstünde bir şapkası (noktası) olan kalın Hı.", sound: "Hı" },
+            { id: 8, ar: "د", name: "Dal", translit: "D", type: "ince", makhraj: "Dil ucunun üst ön dişlerin diplerine değdirilmesiyle çıkar.", mnemonic: "Oturmuş, sırtını bükmüş bir hilal şekli.", sound: "Dal" },
+            { id: 9, ar: "ذ", name: "Zel (Peltek)", translit: "Z (Peltek)", type: "peltek", makhraj: "Dil ucunun üst ön dişlerin arasına hafifçe sıkıştırılmasıyla peltek çıkar.", mnemonic: "Dal harfinin üstünde bir noktası olan peltek kardeşi.", sound: "Zel" },
+            { id: 10, ar: "ر", name: "Ra", translit: "R", type: "kalin", makhraj: "Dil ucunun üst ön diş etlerine hafifçe dokunup titretilmesiyle çıkar.", mnemonic: "Kaydıraktan aşağı kayan muz şeklindeki Ra harfi.", sound: "Ra" },
+            { id: 11, ar: "ز", name: "Ze (Keskin)", translit: "Z", type: "ince", makhraj: "Dil ucunun alt ve üst ön dişler arasına konup arı vızıltısı gibi keskin çıkarılması.", mnemonic: "Ra harfinin başında noktası olan keskin Ze harfi.", sound: "Ze" },
+            { id: 12, ar: "س", name: "Sin", translit: "S", type: "ince", makhraj: "Dil ucunun alt ön dişlerin iç kısmına dayanmasıyla ince ve berrak çıkar.", mnemonic: "Üç tane küçük dişi olan çatal şekilli Sin harfi.", sound: "Sin" },
+            { id: 13, ar: "ش", name: "Şın", translit: "Ş", type: "ince", makhraj: "Dil ortasının üst damağa doğru yayılmasıyla ağız içi doldurularak çıkar.", mnemonic: "Sin harfinin üzerine üç tane nokta konulmuş hali.", sound: "Şın" },
+            { id: 14, ar: "ص", name: "Sad", translit: "S (Kalın)", type: "kalin", makhraj: "Dil kökü yukarı kalkarak ağız dolusu, kuvvetli ve kalın 'S' sesiyle çıkar.", mnemonic: "Göz gibi yuvarlak bir başı ve geniş bir kuyruğu olan kalın Sad.", sound: "Sad" },
+            { id: 15, ar: "ض", name: "Dad", translit: "D / Z (Dolgun)", type: "kalin", makhraj: "Dilin yan tarafının üst azı dişlerine kuvvetlice yapışmasıyla çıkar.", mnemonic: "Kur'an'a has en özel harf; Sad harfinin üstünde noktası olan hali.", sound: "Dad" },
+            { id: 16, ar: "ط", name: "Tı", translit: "T (Kalın)", type: "kalin", makhraj: "Dil ucunun üst ön diş etlerine değdirilip ağız dolusu kalın basılmasıyla çıkar.", mnemonic: "Düz bir direği ve sağa doğru tabanı olan kalın Tı.", sound: "Tı" },
+            { id: 17, ar: "ظ", name: "Zı (Peltek Kalın)", translit: "Z (Kalın Peltek)", type: "peltek", makhraj: "Dil ucu hafifçe dışarı çıkarılarak ağız dolusu kalın ve peltek okunur.", mnemonic: "Tı harfinin üzerinde noktası olan kalın peltek kardeşi.", sound: "Zı" },
+            { id: 18, ar: "ع", name: "Ayn", translit: "'A", type: "ince", makhraj: "Boğazın tam ortasının sıkılmasıyla derin ve berrak bir seda ile çıkar.", mnemonic: "Hilal gibi ağzı açık, boğazdan süzülen derin Ayn.", sound: "Ayn" },
+            { id: 19, ar: "غ", name: "Gayn", translit: "G (Boğaz)", type: "kalin", makhraj: "Boğazın ağza en yakın üst kısmından dolgun bir 'Ğ' sesiyle çıkar.", mnemonic: "Ayn harfinin başında bir noktası olan kalın Gayn.", sound: "Gayn" },
+            { id: 20, ar: "ف", name: "Fe", translit: "F", type: "ince", makhraj: "Üst ön dişlerin uçlarının alt dudağın iç kısmına değdirilmesiyle çıkar.", mnemonic: "Daire başlı, tek noktalı zarif Fe harfi.", sound: "Fe" },
+            { id: 21, ar: "ق", name: "Kaf", translit: "K (Kalın)", type: "kalin", makhraj: "Dil kökünün küçük dile doğru üst damağa vurulmasıyla tok ve kalın çıkar.", mnemonic: "Yuvarlak başlı, üzerinde iki noktası ve derin çanağı olan Kaf.", sound: "Kaf" },
+            { id: 22, ar: "ك", name: "Kef", translit: "K (İnce)", type: "ince", makhraj: "Dil kökünün Kaf harfinden biraz daha öne vurulmasıyla ince ve zarif çıkar.", mnemonic: "İçinde küçük bir 's' veya minik kef işareti bulunan Kef.", sound: "Kef" },
+            { id: 23, ar: "ل", name: "Lam", translit: "L", type: "ince", makhraj: "Dil ucunun ve yanlarının üst ön diş etlerine değdirilmesiyle çıkar.", mnemonic: "Baston sapı veya olta kancası şeklindeki narin Lam.", sound: "Lam" },
+            { id: 24, ar: "م", name: "Mim", translit: "M", type: "ince", makhraj: "İki dudağın birbirine hafifçe kapanıp genizden hafif tınlamasıyla çıkar.", mnemonic: "Küçük yuvarlak bir başı ve aşağı sarkan kuyruğu olan Mim.", sound: "Mim" },
+            { id: 25, ar: "ن", name: "Nun", translit: "N", type: "ince", makhraj: "Dil ucunun üst ön diş etlerine değmesiyle genizden çıkar.", mnemonic: "Derin bir çanağın içinde tek bir yıldızı (noktası) olan Nun.", sound: "Nun" },
+            { id: 26, ar: "و", name: "Vav", translit: "V / W / O / U", type: "ince", makhraj: "İki dudağın ileriye doğru büzülüp yuvarlatılmasıyla çıkar.", mnemonic: "Kendi üzerine kıvrılmış bir fasulye tanesi veya cenin şekli.", sound: "Vav" },
+            { id: 27, ar: "ه", name: "He", translit: "H (Göğüs)", type: "ince", makhraj: "Boğazın en dibinden, göğüsten gelen rahat bir nefes ile çıkar.", mnemonic: "Gözlük gibi iki halkalı veya damla şekilli hafif He.", sound: "He" },
+            { id: 28, ar: "ي", name: "Ye", translit: "Y / İ", type: "ince", makhraj: "Dil ortasının üst damağa doğru yükseltilmesiyle çıkar.", mnemonic: "Kuğu gibi kıvrılan, altında iki noktası olan sevimli Ye harfi.", sound: "Ye" }
+        ];
+
+        const POSITIONS_DATA = [
+            { ar: "ا", name: "Elif", isolated: "ا", initial: "اـ", medial: "ـاـ", final: "ـا", connects: false, exampleWord: "أَمَرَ", exampleRead: "Emara" },
+            { ar: "ب", name: "Be", isolated: "ب", initial: "بـ", medial: "ـبـ", final: "ـب", connects: true, exampleWord: "بَلَدٍ", exampleRead: "Beledin" },
+            { ar: "ت", name: "Te", isolated: "ت", initial: "تـ", medial: "ـتـ", final: "ـت", connects: true, exampleWord: "تَرَكَ", exampleRead: "Terake" },
+            { ar: "ث", name: "Se", isolated: "ث", initial: "ثـ", medial: "ـثـ", final: "ـث", connects: true, exampleWord: "ثَمَرٍ", exampleRead: "Semerin" },
+            { ar: "ج", name: "Cim", isolated: "ج", initial: "جـ", medial: "ـجـ", final: "ـج", connects: true, exampleWord: "جَمَلٌ", exampleRead: "Cemelun" },
+            { ar: "ح", name: "Ha", isolated: "ح", initial: "حـ", medial: "ـحـ", final: "ـح", connects: true, exampleWord: "حَسَنٌ", exampleRead: "Hasanun" },
+            { ar: "خ", name: "Hı", isolated: "خ", initial: "خـ", medial: "ـخـ", final: "ـخ", connects: true, exampleWord: "خَلَقَ", exampleRead: "Halaka" },
+            { ar: "د", name: "Dal", isolated: "د", initial: "دـ", medial: "ـدـ", final: "ـد", connects: false, exampleWord: "دَرَسَ", exampleRead: "Derase" },
+            { ar: "ذ", name: "Zel", isolated: "ذ", initial: "ذـ", medial: "ـذـ", final: "ـذ", connects: false, exampleWord: "ذَكَرَ", exampleRead: "Zekere" },
+            { ar: "ر", name: "Ra", isolated: "ر", initial: "رـ", medial: "ـرـ", final: "ـر", connects: false, exampleWord: "رَحِمَ", exampleRead: "Rahime" },
+            { ar: "ز", name: "Ze", isolated: "ز", initial: "زـ", medial: "ـزـ", final: "ـز", connects: false, exampleWord: "زَمَنٌ", exampleRead: "Zemenun" },
+            { ar: "س", name: "Sin", isolated: "س", initial: "سـ", medial: "ـسـ", final: "ـس", connects: true, exampleWord: "سَلِمَ", exampleRead: "Selime" },
+            { ar: "ش", name: "Şın", isolated: "ش", initial: "شـ", medial: "ـشـ", final: "ـش", connects: true, exampleWord: "شَكَرَ", exampleRead: "Şekera" },
+            { ar: "ص", name: "Sad", isolated: "ص", initial: "صـ", medial: "ـصـ", final: "ـص", connects: true, exampleWord: "صَبَرَ", exampleRead: "Sabara" },
+            { ar: "ض", name: "Dad", isolated: "ض", initial: "ضـ", medial: "ـضـ", final: "ـض", connects: true, exampleWord: "ضَرَبَ", exampleRead: "Daraba" },
+            { ar: "ط", name: "Tı", isolated: "ط", initial: "طـ", medial: "ـطـ", final: "ـط", connects: true, exampleWord: "طَلَبَ", exampleRead: "Talaba" },
+            { ar: "ظ", name: "Zı", isolated: "ظ", initial: "ظـ", medial: "ـظـ", final: "ـظ", connects: true, exampleWord: "ظَلَمَ", exampleRead: "Zalama" },
+            { ar: "ع", name: "Ayn", isolated: "ع", initial: "عـ", medial: "ـعـ", final: "ـع", connects: true, exampleWord: "عَمِلَ", exampleRead: "Amile" },
+            { ar: "غ", name: "Gayn", isolated: "غ", initial: "غـ", medial: "ـغـ", final: "ـغ", connects: true, exampleWord: "غَفَرَ", exampleRead: "Gafara" },
+            { ar: "ف", name: "Fe", isolated: "ف", initial: "فـ", medial: "ـفـ", final: "ـف", connects: true, exampleWord: "فَتَحَ", exampleRead: "Feteha" },
+            { ar: "ق", name: "Kaf", isolated: "ق", initial: "قـ", medial: "ـقـ", final: "ـق", connects: true, exampleWord: "قَرَأَ", exampleRead: "Karae" },
+            { ar: "ك", name: "Kef", isolated: "ك", initial: "كـ", medial: "ـكـ", final: "ـك", connects: true, exampleWord: "كَتَبَ", exampleRead: "Ketebe" },
+            { ar: "ل", name: "Lam", isolated: "ل", initial: "لـ", medial: "ـلـ", final: "ـل", connects: true, exampleWord: "لَمَسَ", exampleRead: "Lemese" },
+            { ar: "م", name: "Mim", isolated: "م", initial: "مـ", medial: "ـمـ", final: "ـم", connects: true, exampleWord: "مَلَكَ", exampleRead: "Meleke" },
+            { ar: "ن", name: "Nun", isolated: "ن", initial: "نـ", medial: "ـنـ", final: "ـن", connects: true, exampleWord: "نَظَرَ", exampleRead: "Nazara" },
+            { ar: "و", name: "Vav", isolated: "و", initial: "وـ", medial: "ـوـ", final: "ـو", connects: false, exampleWord: "وَجَدَ", exampleRead: "Vecede" },
+            { ar: "ه", name: "He", isolated: "ه", initial: "هـ", medial: "ـهـ", final: "ـه", connects: true, exampleWord: "هَدَى", exampleRead: "Hedâ" },
+            { ar: "ي", name: "Ye", isolated: "ي", initial: "يـ", medial: "ـيـ", final: "ـي", connects: true, exampleWord: "يَسَرَ", exampleRead: "Yesere" }
+        ];
+
+        const VOWELS_SAMPLE_DATA = [
+            { arLetter: "ب", name: "Be", fatha: "بَ", fathaRead: "Be", kasra: "بِ", kasraRead: "Bi", damma: "بُ", dammaRead: "Bü" },
+            { arLetter: "ت", name: "Te", fatha: "تَ", fathaRead: "Te", kasra: "تِ", kasraRead: "Ti", damma: "تُ", dammaRead: "Tü" },
+            { arLetter: "ث", name: "Se", fatha: "ثَ", fathaRead: "Se", kasra: "ثِ", kasraRead: "Si", damma: "ثُ", dammaRead: "Sü" },
+            { arLetter: "ج", name: "Cim", fatha: "جَ", fathaRead: "Ce", kasra: "جِ", kasraRead: "Ci", damma: "جُ", dammaRead: "Cü" },
+            { arLetter: "ح", name: "Ha", fatha: "حَ", fathaRead: "Ha", kasra: "حِ", kasraRead: "Hi", damma: "حُ", dammaRead: "Hu" },
+            { arLetter: "خ", name: "Hı", fatha: "خَ", fathaRead: "Ha", kasra: "خِ", kasraRead: "Hı", damma: "خُ", dammaRead: "Hu" },
+            { arLetter: "د", name: "Dal", fatha: "دَ", fathaRead: "De", kasra: "دِ", kasraRead: "Di", damma: "دُ", dammaRead: "Dü" },
+            { arLetter: "ذ", name: "Zel", fatha: "ذَ", fathaRead: "Ze", kasra: "ذِ", kasraRead: "Zi", damma: "ذُ", dammaRead: "Zü" },
+            { arLetter: "ر", name: "Ra", fatha: "رَ", fathaRead: "Ra", kasra: "رِ", kasraRead: "Ri", damma: "رُ", dammaRead: "Ru" },
+            { arLetter: "ز", name: "Ze", fatha: "زَ", fathaRead: "Ze", kasra: "زِ", kasraRead: "Zi", damma: "زُ", dammaRead: "Zü" },
+            { arLetter: "س", name: "Sin", fatha: "سَ", fathaRead: "Se", kasra: "سِ", kasraRead: "Si", damma: "سُ", dammaRead: "Sü" },
+            { arLetter: "ش", name: "Şın", fatha: "شَ", fathaRead: "Şe", kasra: "شِ", kasraRead: "Şi", damma: "شُ", dammaRead: "Şü" },
+            { arLetter: "ص", name: "Sad", fatha: "صَ", fathaRead: "Sa", kasra: "صِ", kasraRead: "Sı", damma: "صُ", dammaRead: "Su" },
+            { arLetter: "ض", name: "Dad", fatha: "ضَ", fathaRead: "Da", kasra: "ضِ", kasraRead: "Dı", damma: "ضُ", dammaRead: "Du" },
+            { arLetter: "ط", name: "Tı", fatha: "طَ", fathaRead: "Ta", kasra: "طِ", kasraRead: "Tı", damma: "طُ", dammaRead: "Tu" },
+            { arLetter: "ظ", name: "Zı", fatha: "ظَ", fathaRead: "Za", kasra: "ظِ", kasraRead: "Zı", damma: "ظُ", dammaRead: "Zu" },
+            { arLetter: "ع", name: "Ayn", fatha: "عَ", fathaRead: "'A", kasra: "عِ", kasraRead: "'İ", damma: "عُ", dammaRead: "'U" },
+            { arLetter: "غ", name: "Gayn", fatha: "غَ", fathaRead: "Ga", kasra: "غِ", kasraRead: "Gı", damma: "غُ", dammaRead: "Gu" },
+            { arLetter: "ف", name: "Fe", fatha: "فَ", fathaRead: "Fe", kasra: "فِ", kasraRead: "Fi", damma: "فُ", dammaRead: "Fü" },
+            { arLetter: "ق", name: "Kaf", fatha: "قَ", fathaRead: "Ka", kasra: "قِ", kasraRead: "Kı", damma: "قُ", dammaRead: "Ku" },
+            { arLetter: "ك", name: "Kef", fatha: "كَ", fathaRead: "Ke", kasra: "كِ", kasraRead: "Ki", damma: "كُ", dammaRead: "Kü" },
+            { arLetter: "ل", name: "Lam", fatha: "لَ", fathaRead: "Le", kasra: "لِ", kasraRead: "Li", damma: "لُ", dammaRead: "Lü" },
+            { arLetter: "م", name: "Mim", fatha: "مَ", fathaRead: "Me", kasra: "مِ", kasraRead: "Mi", damma: "مُ", dammaRead: "Mü" },
+            { arLetter: "ن", name: "Nun", fatha: "نَ", fathaRead: "Ne", kasra: "نِ", kasraRead: "Ni", damma: "نُ", dammaRead: "Nü" },
+            { arLetter: "و", name: "Vav", fatha: "وَ", fathaRead: "Ve", kasra: "وِ", kasraRead: "Vi", damma: "وُ", dammaRead: "Vü" },
+            { arLetter: "ه", name: "He", fatha: "هَ", fathaRead: "He", kasra: "هِ", kasraRead: "Hi", damma: "هُ", dammaRead: "Hü" },
+            { arLetter: "ي", name: "Ye", fatha: "يَ", fathaRead: "Ye", kasra: "يِ", kasraRead: "Yi", damma: "يُ", dammaRead: "Yü" }
+        ];
+
+        const SUKUN_SHADDAH_SAMPLES = [
+            { type: "sukun", ar: "أَبْ", tr: "Eb", desc: "Elif üstün + Be cezimli" },
+            { type: "sukun", ar: "قُلْ", tr: "Kul", desc: "Kaf ötreli + Lam cezimli" },
+            { type: "sukun", ar: "مَنْ", tr: "Men", desc: "Mim üstün + Nun cezimli" },
+            { type: "sukun", ar: "هَلْ", tr: "Hel", desc: "He üstün + Lam cezimli" },
+            { type: "sukun", ar: "كَمْ", tr: "Kem", desc: "Kef üstün + Mim cezimli" },
+            { type: "sukun", ar: "عَنْ", tr: "An", desc: "Ayn üstün + Nun cezimli" },
+            { type: "shaddah", ar: "رَبِّ", tr: "Rabbi", desc: "Ra üstün + Be şeddeli (Eb-bi)" },
+            { type: "shaddah", ar: "إِنَّ", tr: "İnne", desc: "Elif esreli + Nun şeddeli (İn-ne)" },
+            { type: "shaddah", ar: "مَدَّ", tr: "Medde", desc: "Mim üstün + Dal şeddeli (Med-de)" },
+            { type: "shaddah", ar: "عَمَّ", tr: "Amme", desc: "Ayn üstün + Mim şeddeli (Am-me)" },
+            { type: "shaddah", ar: "ثُمَّ", tr: "Sümme", desc: "Se ötreli + Mim şeddeli (Süm-me)" },
+            { type: "shaddah", ar: "حَقّ", tr: "Hakk", desc: "Ha üstün + Kaf şeddeli (Hak-k)" }
+        ];
+
+        const TANWEEN_SAMPLES = [
+            { ar: "كِتَابًا", tr: "Kitâben", rule: "İki Üstün (-en / -an)", desc: "Sonunda Elif ile yazılan iki üstün" },
+            { ar: "رَسُولٍ", tr: "Rasûlin", rule: "İki Esre (-in / -ın)", desc: "Harfin altına konulan iki çizgi" },
+            { ar: "عَلِيمٌ", tr: "Alîmun", rule: "İki Ötre (-ün / -un)", desc: "Harfin üstüne konulan iki kavis" },
+            { ar: "أَحَدٌ", tr: "Ahadun", rule: "İki Ötre (-un)", desc: "İhlas suresinde geçen 'Kul hüvallâhu ehadun'" },
+            { ar: "شَيْئًا", tr: "Şey'en", rule: "İki Üstün (-en)", desc: "N sesini üstün ile verme" },
+            { ar: "خَيْرًا", tr: "Hayran", rule: "İki Üstün (-an)", desc: "Kalın harfte 'an' sesi verme" }
+        ];
+
+        const MADD_SAMPLES = [
+            { ar: "بَا", tr: "Bâ", letter: "Elif (ا)", desc: "Üstünden sonra gelen cezimli/harekesiz Elif sesi 1 elif uzatır." },
+            { ar: "بُو", tr: "Bû", letter: "Vav (و)", desc: "Ötreden sonra gelen harekesiz Vav sesi 1 elif uzatır." },
+            { ar: "بِي", tr: "Bî", letter: "Ye (ي)", desc: "Esreden sonra gelen harekesiz Ye sesi 1 elif uzatır." },
+            { ar: "قَالَ", tr: "Kâle", letter: "Elif (ا)", desc: "'Dedi' anlamında Elif ile uzatma." },
+            { ar: "يَقُولُ", tr: "Yekûlü", letter: "Vav (و)", desc: "'Der' anlamında Vav ile uzatma." },
+            { ar: "قِيلَ", tr: "Kîle", letter: "Ye (ي)", desc: "'Denildi' anlamında Ye ile uzatma." }
+        ];
+
+        const TAJWEED_RULES = [
+            {
+                name: "Kalkale (Sarsarak Okuma)",
+                letters: "ق ط ب ج د (Kutup Cedin)",
+                desc: "Bu 5 harf cezimli (sükunlu) geldiğinde veya üzerinde durulduğunda ses kuvvetle vurulup sarsılarak çıkarılır.",
+                sampleAr: "قُلْ هُوَ اللَّهُ أَحَدٌ ۞ اللَّهُ الصَّمَدُ ۞ لَمْ يَلِدْ وَلَمْ يُولَدْ",
+                sampleRead: "Ahad(e), Samad(e), Yelid(e)...",
+                color: "emerald"
+            },
+            {
+                name: "İhfa (Genizden Gizleyerek Okuma)",
+                letters: "15 Harf (ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك)",
+                desc: "Sakin Nun (نْ) veya Tenvin'den sonra bu 15 harften biri gelirse, 'N' sesi genizden 1.5 elif miktarı tutularak gizlenir.",
+                sampleAr: "مِن قَبْلُ • أَنفُسَهُمْ • كِتَابٌ كَرِيمٌ",
+                sampleRead: "Min(g) kabli... En(g)füsehüm...",
+                color: "indigo"
+            },
+            {
+                name: "İzhar (Net ve Açık Okuma)",
+                letters: "6 Boğaz Harfi (ء هـ ع ح غ خ)",
+                desc: "Sakin Nun veya Tenvin'den sonra boğaz harfleri gelirse, hiçbir tutma veya gizleme yapılmadan 'N' sesi apaçık okunur.",
+                sampleAr: "مَنْ آمَنَ • أَنْعَمْتَ • عَلِيمٌ حَكِيمٌ",
+                sampleRead: "Men âmene... En'amte...",
+                color: "teal"
+            },
+            {
+                name: "İdgam (Harfleri Birbirine Katma)",
+                letters: "Meal Gunne (ي ن م و) & Bila Gunne (ل ر)",
+                desc: "Sakin Nun veya Tenvin'den sonra bu harfler gelirse, Nun harfi kaybolur ve sonraki harf şeddeli gibi okunur.",
+                sampleAr: "مَن يَقُولُ (Mey-yekûlü) • مِن رَّبِّهِمْ (Mir-rabbihim)",
+                sampleRead: "Mey-yekûlü... Mir-rabbihim...",
+                color: "amber"
+            },
+            {
+                name: "İklab (Nun Sesini Mim'e Çevirme)",
+                letters: "Be Harfi (ب)",
+                desc: "Sakin Nun veya Tenvin'den sonra 'Be' harfi gelirse, 'N' sesi dudaklar tam bastırılmadan 'Mim' (م) sesine çevrilir.",
+                sampleAr: "مِن بَعْدِ (Mim-ba'di) • سَمِيعٌ بَصِيرٌ (Semîum-basîr)",
+                sampleRead: "Mim-ba'di... Semîum-basîr...",
+                color: "rose"
+            },
+            {
+                name: "Lafzatullah ('Allah' Lafzının Okunuşu)",
+                letters: "Üstün/Ötre -> Kalın | Esre -> İnce",
+                desc: "'Allah' (اللَّه) lafzından önceki harf üstün veya ötre ise 'ALLAH' (kalın); esre ise 'ELLAH' (ince) okunur.",
+                sampleAr: "قَالَ اللَّهُ (Kalallahu - Kalın) • بِسْمِ اللَّهِ (Bismillahi - İnce)",
+                sampleRead: "Kâlallâhu / Bismillâhi",
+                color: "purple"
+            }
+        ];
+
+        const QUIZ_QUESTIONS = [
+            {
+                q: "Aşağıdaki harflerden hangisi 'Cim' (ج) harfidir?",
+                options: ["ب", "ج", "ت", "ح"],
+                correct: 1,
+                hint: "Cim harfinin karnının içinde bir noktası vardır."
+            },
+            {
+                q: "Kendisinden sonrakine BİRLEŞMEYEN 6 harften biri hangisidir?",
+                options: ["ب", "م", "د", "ك"],
+                correct: 2,
+                hint: "Elif, Dal, Zel, Ra, Ze, Vav harfleri kendisinden sonrakine bitişmez."
+            },
+            {
+                q: "İnce harfleri 'e', kalın harfleri 'a' sesiyle okutan üstteki tek çizgi harekesi hangisidir?",
+                options: ["Üstün (َ)", "Esre (ِ)", "Ötre (ُ)", "Cezm (ْ)"],
+                correct: 0,
+                hint: "Üstün harfin üstüne konulan eğik çizgidir."
+            },
+            {
+                q: "'قُلْ' kelimesinde Kaf harfinde ötre, Lam harfinde ne vardır?",
+                options: ["Şedde", "Cezm (Sükun)", "Tenvin", "Uzatma"],
+                correct: 1,
+                hint: "Cezm harfi tutturur ve durdurur (Kul)."
+            },
+            {
+                q: "Harfin altına konulan ve 'i / ı' sesi veren hareke hangisidir?",
+                options: ["Ötre", "Üstün", "Esre (ِ)", "Şedde"],
+                correct: 2,
+                hint: "Esre daima harfin altında yer alır."
+            },
+            {
+                q: "Aşağıdakilerden hangisi Kalkale (Sarsma) harflerindendir?",
+                options: ["س", "ق", "ف", "م"],
+                correct: 1,
+                hint: "Kalkale harfleri 'Kutup Cedin' (ق ط ب ج د) harfleridir."
+            },
+            {
+                q: "Harfi iki defa (önce cezimli sonra harekeli) okutan işaret hangisidir?",
+                options: ["Şedde (ّ)", "Cezm (ْ)", "Tenvin (ً)", "Med"],
+                correct: 0,
+                hint: "Şedde harfi iki kere okutur (Rabbi, İnne gibi)."
+            },
+            {
+                q: "Harfin sonuna 'N' sesi ekleyen çift harekelere ne denir?",
+                options: ["Uzatma", "Tenvin (ً ٍ ٌ)", "Kalkale", "İzhar"],
+                correct: 1,
+                hint: "Tenvin iki üstün, iki esre ve iki ötredir."
+            },
+            {
+                q: "Uzatma (Med) harfleri hangileridir?",
+                options: ["Elif, Vav, Ye (ا و ي)", "Be, Te, Se", "Cim, Ha, Hı", "Kaf, Kef, Lam"],
+                correct: 0,
+                hint: "Med harfleri Elif, Vav ve Ye'dir (Bâ, Bû, Bî)."
+            },
+            {
+                q: "'بِسْمِ اللَّهِ' ifadesinde Allah lafzı nasıl okunur?",
+                options: ["Kalın (Allah)", "İnce (Ellah)", "Peltek", "Şeddesiz"],
+                correct: 1,
+                hint: "Önceki harf esreli (Bismi) olduğu için ince okunur."
+            }
+        ];
+
+        let currentLearnTab = 'alphabet';
+        let userQuizAnswers = {};
+        let quizScore = 0;
+
+        function initLearnView() {
+            setLearnTab(currentLearnTab);
+        }
+
+        function setLearnTab(tabName) {
+            currentLearnTab = tabName;
+            document.querySelectorAll('.learn-tab-btn').forEach(btn => {
+                if (btn.getAttribute('data-tab') === tabName) {
+                    btn.className = 'learn-tab-btn active px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white transition whitespace-nowrap flex items-center gap-1.5 shadow-sm';
+                } else {
+                    btn.className = 'learn-tab-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-800 text-gray-300 hover:text-white hover:bg-gray-700 transition whitespace-nowrap flex items-center gap-1.5';
+                }
+            });
+
+            const contentEl = document.getElementById('learn-tab-content');
+            if (!contentEl) return;
+
+            if (tabName === 'alphabet') contentEl.innerHTML = renderAlphabetLesson();
+            else if (tabName === 'positions') contentEl.innerHTML = renderPositionsLesson();
+            else if (tabName === 'vowels') contentEl.innerHTML = renderVowelsLesson();
+            else if (tabName === 'sukun_shaddah') contentEl.innerHTML = renderSukunShaddahLesson();
+            else if (tabName === 'tanween') contentEl.innerHTML = renderTanweenLesson();
+            else if (tabName === 'madd') contentEl.innerHTML = renderMaddLesson();
+            else if (tabName === 'tajweed') contentEl.innerHTML = renderTajweedLesson();
+            else if (tabName === 'quiz') contentEl.innerHTML = renderQuizLesson();
+        }
+
+        // DERS 1: HARFLER
+        function renderAlphabetLesson() {
+            let html = `
+                <div class="space-y-4">
+                    <div class="bg-gray-900/80 border border-gray-800 p-4 sm:p-5 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <h3 class="font-bold text-white text-base sm:text-lg flex items-center gap-2">
+                                <i class="fa-solid fa-font text-emerald-400"></i> 1. Ders: Arap Alfabesi (28 Temel Harf)
+                            </h3>
+                            <p class="text-xs sm:text-sm text-gray-300 mt-0.5">
+                                Harflere tıklayarak doğru mahreçli sesli telaffuzunu dinleyin. Renkler harfin karakterini belirtir.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs flex-wrap">
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-semibold">İnce Harfler</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-amber-950 text-amber-400 border border-amber-800/60 font-semibold">Kalın Harfler</span>
+                            <span class="px-2.5 py-1 rounded-lg bg-purple-950 text-purple-400 border border-purple-800/60 font-semibold">Peltek Harfler</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
+            `;
+
+            ALPHABET_DATA.forEach(letter => {
+                let badgeClass = 'bg-emerald-950/80 text-emerald-400 border-emerald-800/60';
+                let badgeLabel = 'İnce';
+                if (letter.type === 'kalin') {
+                    badgeClass = 'bg-amber-950/80 text-amber-400 border-amber-800/60';
+                    badgeLabel = 'Kalın';
+                } else if (letter.type === 'peltek') {
+                    badgeClass = 'bg-purple-950/80 text-purple-400 border-purple-800/60';
+                    badgeLabel = 'Peltek';
+                }
+
+                html += `
+                    <div onclick="playLearnLetter('${letter.sound}', '${letter.ar}')" class="group bg-gray-900/80 hover:bg-emerald-950/40 border border-gray-800 hover:border-emerald-500/80 rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 shadow-md hover:scale-105 relative flex flex-col justify-between space-y-3">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="font-mono text-gray-500 font-bold">#${letter.id}</span>
+                            <span class="px-2 py-0.5 rounded-full border text-[10px] font-bold ${badgeClass}">${badgeLabel}</span>
+                        </div>
+                        <div class="py-2">
+                            <span class="text-4xl sm:text-5xl font-quran text-gray-100 group-hover:text-emerald-400 transition-colors block select-none" dir="rtl">${letter.ar}</span>
+                            <h4 class="text-sm font-bold text-white mt-2">${letter.name}</h4>
+                            <span class="text-xs text-gray-400 font-mono">(${letter.translit})</span>
+                        </div>
+                        <div class="pt-2 border-t border-gray-800/60 text-[11px] text-gray-400 leading-snug">
+                            <span class="text-amber-400/90 font-semibold block text-[10px]">💡 İpucu:</span>
+                            <span class="text-[10px] text-gray-300 line-clamp-2">${letter.mnemonic}</span>
+                        </div>
+                        <div class="pt-1 flex items-center justify-center text-emerald-400 text-xs gap-1 group-hover:underline">
+                            <i class="fa-solid fa-volume-high text-[11px]"></i> <span>Dinle</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div></div>`;
+            return html;
+        }
+
+        // DERS 2: BAŞTA - ORTADA - SONDA
+        function renderPositionsLesson() {
+            let html = `
+                <div class="space-y-5">
+                    <!-- Özel Kural Kutusu: Birleşmeyen 6 Harf -->
+                    <div class="bg-amber-950/30 border border-amber-700/50 p-4 sm:p-5 rounded-2xl space-y-2">
+                        <div class="flex items-center gap-2 text-amber-400 font-bold text-sm sm:text-base">
+                            <i class="fa-solid fa-circle-exclamation text-lg"></i>
+                            <span>Çok Önemli Altın Kural: Kendisinden Sonrakine Birleşmeyen 6 Harf</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-amber-100/90 leading-relaxed">
+                            Aşağıdaki 6 harf sadece <b>kendisinden önceki</b> harfle birleşir, <b>kendisinden sonraki</b> harfle ASLA birleşmez ve ayrı yazılır:
+                        </p>
+                        <div class="flex items-center gap-3 pt-1 flex-wrap">
+                            <span class="px-3.5 py-1.5 bg-gray-900 border border-amber-600 rounded-xl text-2xl font-quran text-amber-300">ا (Elif)</span>
+                            <span class="px-3.5 py-1.5 bg-gray-900 border border-amber-600 rounded-xl text-2xl font-quran text-amber-300">د (Dal)</span>
+                            <span class="px-3.5 py-1.5 bg-gray-900 border border-amber-600 rounded-xl text-2xl font-quran text-amber-300">ذ (Zel)</span>
+                            <span class="px-3.5 py-1.5 bg-gray-900 border border-amber-600 rounded-xl text-2xl font-quran text-amber-300">ر (Ra)</span>
+                            <span class="px-3.5 py-1.5 bg-gray-900 border border-amber-600 rounded-xl text-2xl font-quran text-amber-300">ز (Ze)</span>
+                            <span class="px-3.5 py-1.5 bg-gray-900 border border-amber-600 rounded-xl text-2xl font-quran text-amber-300">و (Vav)</span>
+                        </div>
+                    </div>
+
+                    <!-- Harflerin 4 Formu Tablosu -->
+                    <div class="bg-gray-900/80 border border-gray-800 rounded-2xl overflow-hidden shadow-xl">
+                        <div class="p-4 bg-gray-800/60 border-b border-gray-800 flex items-center justify-between">
+                            <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                                <i class="fa-solid fa-table-cells text-emerald-400"></i> Harflerin 4 Yazılış Hali ve Kelime Örnekleri
+                            </h3>
+                            <span class="text-xs text-gray-400">Örneklere tıklayarak dinleyin</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-center text-xs sm:text-sm">
+                                <thead class="bg-gray-950/60 text-gray-400 border-b border-gray-800 text-[11px] uppercase">
+                                    <tr>
+                                        <th class="p-3">Harf Adı</th>
+                                        <th class="p-3">Yalın Hali</th>
+                                        <th class="p-3">Başta</th>
+                                        <th class="p-3">Ortada</th>
+                                        <th class="p-3">Sonda</th>
+                                        <th class="p-3">Örnek Kelime</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-800/60">
+            `;
+
+            POSITIONS_DATA.forEach(item => {
+                html += `
+                    <tr class="hover:bg-gray-800/40 transition">
+                        <td class="p-3 font-semibold text-gray-300">${item.name}</td>
+                        <td class="p-3 text-2xl font-quran text-emerald-400" dir="rtl">${item.isolated}</td>
+                        <td class="p-3 text-2xl font-quran text-gray-200" dir="rtl">${item.initial}</td>
+                        <td class="p-3 text-2xl font-quran text-gray-200" dir="rtl">${item.medial}</td>
+                        <td class="p-3 text-2xl font-quran text-gray-200" dir="rtl">${item.final}</td>
+                        <td class="p-3">
+                            <button onclick="playLearnWord('${item.exampleRead}', '${item.exampleWord}')" class="px-3 py-1.5 bg-emerald-950/60 hover:bg-emerald-900 text-emerald-300 border border-emerald-800/60 rounded-xl text-base font-quran transition inline-flex items-center gap-2" dir="rtl">
+                                <span>${item.exampleWord}</span>
+                                <span class="text-[11px] font-sans text-gray-400">(${item.exampleRead})</span>
+                                <i class="fa-solid fa-volume-high text-[10px] text-emerald-400"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div></div></div>`;
+            return html;
+        }
+
+        // DERS 3: HAREKELER
+        function renderVowelsLesson() {
+            let html = `
+                <div class="space-y-5">
+                    <!-- 3 Temel Hareke Tanıtımı -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-900/80 border border-emerald-800/60 p-4 sm:p-5 rounded-2xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white text-base">1. Üstün (Fetha َ )</h4>
+                                <span class="w-8 h-8 rounded-lg bg-emerald-950 text-emerald-400 font-quran text-2xl flex items-center justify-center">ـَ</span>
+                            </div>
+                            <p class="text-xs text-gray-300 leading-relaxed">
+                                Harfin <b>üstüne</b> konulan eğik çizgidir. İnce harfleri <b>"e"</b>, kalın harfleri <b>"a"</b> sesiyle okutur.
+                            </p>
+                            <div class="text-xs font-mono text-emerald-400 font-semibold pt-1">Örn: دَ (De) • صَ (Sa)</div>
+                        </div>
+
+                        <div class="bg-gray-900/80 border border-teal-800/60 p-4 sm:p-5 rounded-2xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white text-base">2. Esre (Kesra ِ )</h4>
+                                <span class="w-8 h-8 rounded-lg bg-teal-950 text-teal-400 font-quran text-2xl flex items-center justify-center">ـِ</span>
+                            </div>
+                            <p class="text-xs text-gray-300 leading-relaxed">
+                                Harfin <b>altına</b> konulan eğik çizgidir. İnce harfleri <b>"i"</b>, kalın harfleri <b>"ı-i"</b> sesiyle okutur.
+                            </p>
+                            <div class="text-xs font-mono text-teal-400 font-semibold pt-1">Örn: دِ (Di) • صِ (Sı)</div>
+                        </div>
+
+                        <div class="bg-gray-900/80 border border-amber-800/60 p-4 sm:p-5 rounded-2xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white text-base">3. Ötre (Zamme ُ )</h4>
+                                <span class="w-8 h-8 rounded-lg bg-amber-950 text-amber-400 font-quran text-2xl flex items-center justify-center">ـُ</span>
+                            </div>
+                            <p class="text-xs text-gray-300 leading-relaxed">
+                                Harfin <b>üstüne</b> konulan küçük vav benzeri işarettir. İnce harfleri <b>"ü-u"</b>, kalın harfleri <b>"u"</b> sesiyle okutur.
+                            </p>
+                            <div class="text-xs font-mono text-amber-400 font-semibold pt-1">Örn: دُ (Dü) • صُ (Su)</div>
+                        </div>
+                    </div>
+
+                    <!-- 28 Harf Harekeli Sesli Tahtası -->
+                    <div class="bg-gray-900/80 border border-gray-800 p-4 sm:p-6 rounded-2xl space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                                <i class="fa-solid fa-volume-high text-emerald-400"></i> İnteraktif Hareke Tahtası (Tıkla & Dinle)
+                            </h3>
+                            <span class="text-xs text-gray-400">Her kutucuğa tıklayarak sesini dinleyin</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            `;
+
+            VOWELS_SAMPLE_DATA.forEach(v => {
+                html += `
+                    <div class="bg-gray-950/80 border border-gray-800 rounded-xl p-3 space-y-2 text-center">
+                        <div class="text-xs font-bold text-gray-400 border-b border-gray-800/80 pb-1">${v.name} Harfi</div>
+                        <div class="grid grid-cols-3 gap-1.5">
+                            <button onclick="playLearnWord('${v.fathaRead}', '${v.fatha}')" class="p-2 rounded-lg bg-emerald-950/50 hover:bg-emerald-900 border border-emerald-800/40 text-center transition group">
+                                <span class="text-2xl font-quran text-emerald-400 block" dir="rtl">${v.fatha}</span>
+                                <span class="text-[10px] text-gray-400 font-mono block mt-1">${v.fathaRead}</span>
+                            </button>
+                            <button onclick="playLearnWord('${v.kasraRead}', '${v.kasra}')" class="p-2 rounded-lg bg-teal-950/50 hover:bg-teal-900 border border-teal-800/40 text-center transition group">
+                                <span class="text-2xl font-quran text-teal-400 block" dir="rtl">${v.kasra}</span>
+                                <span class="text-[10px] text-gray-400 font-mono block mt-1">${v.kasraRead}</span>
+                            </button>
+                            <button onclick="playLearnWord('${v.dammaRead}', '${v.damma}')" class="p-2 rounded-lg bg-amber-950/50 hover:bg-amber-900 border border-amber-800/40 text-center transition group">
+                                <span class="text-2xl font-quran text-amber-400 block" dir="rtl">${v.damma}</span>
+                                <span class="text-[10px] text-gray-400 font-mono block mt-1">${v.dammaRead}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div></div></div>`;
+            return html;
+        }
+
+        // DERS 4: CEZM VE ŞEDDE
+        function renderSukunShaddahLesson() {
+            let html = `
+                <div class="space-y-5">
+                    <!-- Kural Açıklamaları -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-900/80 border border-blue-800/60 p-4 sm:p-5 rounded-2xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white text-base">Cezm (Sükun ْ )</h4>
+                                <span class="w-8 h-8 rounded-lg bg-blue-950 text-blue-400 font-quran text-2xl flex items-center justify-center">ـْ</span>
+                            </div>
+                            <p class="text-xs text-gray-300 leading-relaxed">
+                                Harfin üzerine konulan küçük yuvarlak işarettir. Harfi <b>harekesiz</b> kılar ve önceki harfe bağlayarak <b>tutturur/durdurur</b>.
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-900/80 border border-rose-800/60 p-4 sm:p-5 rounded-2xl space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-white text-base">Şedde ( ّ )</h4>
+                                <span class="w-8 h-8 rounded-lg bg-rose-950 text-rose-400 font-quran text-2xl flex items-center justify-center">ـّ</span>
+                            </div>
+                            <p class="text-xs text-gray-300 leading-relaxed">
+                                Harfin üzerine konulan 'w' benzeri işarettir. O harfi <b>iki kere</b> (birincisi cezimli, ikincisi harekeli) okutur.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Örnek Kartları -->
+                    <div class="bg-gray-900/80 border border-gray-800 p-4 sm:p-6 rounded-2xl space-y-4">
+                        <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-volume-high text-emerald-400"></i> Cezm ve Şedde Örnekleri (Tıkla & Dinle)
+                        </h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            `;
+
+            SUKUN_SHADDAH_SAMPLES.forEach(item => {
+                let badge = item.type === 'sukun' ? 'bg-blue-950 text-blue-400 border-blue-800/60' : 'bg-rose-950 text-rose-400 border-rose-800/60';
+                let label = item.type === 'sukun' ? 'Cezim' : 'Şedde';
+                html += `
+                    <button onclick="playLearnWord('${item.tr}', '${item.ar}')" class="p-4 rounded-xl bg-gray-950/80 hover:bg-emerald-950/40 border border-gray-800 hover:border-emerald-500/60 transition text-center space-y-2 group">
+                        <div class="flex items-center justify-between text-[10px]">
+                            <span class="px-2 py-0.5 rounded-full border font-bold ${badge}">${label}</span>
+                            <span class="text-gray-500 font-mono">${item.tr}</span>
+                        </div>
+                        <span class="text-3xl sm:text-4xl font-quran text-gray-100 group-hover:text-emerald-400 transition-colors block" dir="rtl">${item.ar}</span>
+                        <p class="text-[11px] text-gray-400 leading-tight">${item.desc}</p>
+                    </button>
+                `;
+            });
+
+            html += `</div></div></div>`;
+            return html;
+        }
+
+        // DERS 5: TENVİNLER
+        function renderTanweenLesson() {
+            let html = `
+                <div class="space-y-5">
+                    <div class="bg-gray-900/80 border border-gray-800 p-4 sm:p-5 rounded-2xl space-y-2">
+                        <h3 class="font-bold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-bell text-amber-400"></i> Tenvinler Nedir? (İki Üstün, İki Esre, İki Ötre)
+                        </h3>
+                        <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                            Kelimelerin son harfine <b>"N"</b> sesi katan çift harekelere tenvin denir.
+                            İki Üstün ( ً ) <b>"en / an"</b>, İki Esre ( ٍ ) <b>"in / ın"</b>, İki Ötre ( ٌ ) <b>"ün / un"</b> sesi verir.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            `;
+
+            TANWEEN_SAMPLES.forEach(item => {
+                html += `
+                    <button onclick="playLearnWord('${item.tr}', '${item.ar}')" class="p-4 rounded-xl bg-gray-900/80 hover:bg-emerald-950/40 border border-gray-800 hover:border-emerald-500/60 transition text-center space-y-2 group">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-800/60 font-bold">${item.rule}</span>
+                            <span class="text-emerald-400 font-mono font-semibold">${item.tr}</span>
+                        </div>
+                        <span class="text-3xl sm:text-4xl font-quran text-gray-100 group-hover:text-emerald-400 transition-colors block py-1" dir="rtl">${item.ar}</span>
+                        <p class="text-xs text-gray-400">${item.desc}</p>
+                    </button>
+                `;
+            });
+
+            html += `</div></div>`;
+            return html;
+        }
+
+        // DERS 6: MED / UZATMALAR
+        function renderMaddLesson() {
+            let html = `
+                <div class="space-y-5">
+                    <div class="bg-gray-900/80 border border-gray-800 p-4 sm:p-5 rounded-2xl space-y-2">
+                        <h3 class="font-bold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-arrows-left-right text-emerald-400"></i> Med (Uzatma) Harfleri: Elif, Vav, Ya (ا و ي)
+                        </h3>
+                        <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                            Kendisi harekesiz olup, kendinden önceki harfin harekesine uygun gelen harfler o sesi <b>1 elif miktarı (bir parmak kaldırıp indirecek kadar)</b> uzatır.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            `;
+
+            MADD_SAMPLES.forEach(item => {
+                html += `
+                    <button onclick="playLearnWord('${item.tr}', '${item.ar}')" class="p-4 rounded-xl bg-gray-900/80 hover:bg-emerald-950/40 border border-gray-800 hover:border-emerald-500/60 transition text-center space-y-2 group">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/60 font-bold">${item.letter}</span>
+                            <span class="text-amber-400 font-mono font-bold">${item.tr}</span>
+                        </div>
+                        <span class="text-3xl sm:text-4xl font-quran text-gray-100 group-hover:text-emerald-400 transition-colors block py-1" dir="rtl">${item.ar}</span>
+                        <p class="text-xs text-gray-400 leading-relaxed">${item.desc}</p>
+                    </button>
+                `;
+            });
+
+            html += `</div></div>`;
+            return html;
+        }
+
+        // DERS 7: KOLAY TECVİD
+        function renderTajweedLesson() {
+            let html = `
+                <div class="space-y-4">
+                    <div class="bg-gray-900/80 border border-gray-800 p-4 sm:p-5 rounded-2xl">
+                        <h3 class="font-bold text-white text-base sm:text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-award text-amber-400"></i> Kolay ve Anlaşılır Tecvid Rehberi
+                        </h3>
+                        <p class="text-xs sm:text-sm text-gray-300 mt-1">
+                            Kur'an-ı Kerim'i Peygamberimiz'in (s.a.v.) okuduğu gibi en güzel ve kusursuz ahenkle okumanın temel kuralları.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            `;
+
+            TAJWEED_RULES.forEach(rule => {
+                html += `
+                    <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-5 space-y-3 shadow-md hover:border-gray-700 transition">
+                        <div class="flex items-center justify-between border-b border-gray-800 pb-2">
+                            <h4 class="font-bold text-white text-sm sm:text-base">${rule.name}</h4>
+                            <span class="px-2 py-0.5 rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800/60 text-[10px] font-bold font-mono">${rule.letters}</span>
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed">${rule.desc}</p>
+                        <div class="p-3 bg-gray-950/80 rounded-xl border border-gray-800/80 space-y-1">
+                            <span class="text-[10px] text-gray-400 uppercase font-semibold block">Kur'an'dan Örnek:</span>
+                            <span class="text-lg font-quran text-emerald-300 block" dir="rtl">${rule.sampleAr}</span>
+                            <span class="text-[11px] text-gray-400 font-mono block">Okunuş: ${rule.sampleRead}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div></div>`;
+            return html;
+        }
+
+        // DERS 8: MİNİ TEST & İLK SURELER
+        function renderQuizLesson() {
+            let html = `
+                <div class="space-y-6">
+                    <!-- Mini Test Bölümü -->
+                    <div class="bg-gray-900/80 border border-gray-800 p-5 sm:p-6 rounded-2xl space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-800 pb-4">
+                            <div>
+                                <h3 class="font-bold text-white text-base sm:text-lg flex items-center gap-2">
+                                    <i class="fa-solid fa-gamepad text-amber-400"></i> İnteraktif Harf & Kural Testi
+                                </h3>
+                                <p class="text-xs sm:text-sm text-gray-400 mt-0.5">
+                                    Öğrendiklerinizi pekiştirin! Soruları cevaplayın, anında puanınızı görün.
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="resetQuiz()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg text-xs font-semibold transition">
+                                    <i class="fa-solid fa-rotate-right"></i> Testi Sıfırla
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+            `;
+
+            QUIZ_QUESTIONS.forEach((qItem, qIdx) => {
+                const answered = userQuizAnswers[qIdx] !== undefined;
+                const selected = userQuizAnswers[qIdx];
+                const isCorrect = selected === qItem.correct;
+
+                html += `
+                    <div class="p-4 bg-gray-950/80 rounded-xl border border-gray-800/80 space-y-3" id="quiz-card-${qIdx}">
+                        <div class="flex items-start justify-between gap-2">
+                            <h4 class="text-xs sm:text-sm font-bold text-white">
+                                <span class="text-emerald-400 font-mono">${qIdx + 1}.</span> ${qItem.q}
+                            </h4>
+                            ${answered ? (isCorrect ? '<span class="text-emerald-400 text-xs font-bold flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Doğru</span>' : '<span class="text-rose-400 text-xs font-bold flex items-center gap-1"><i class="fa-solid fa-circle-xmark"></i> Yanlış</span>') : ''}
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                `;
+
+                qItem.options.forEach((opt, optIdx) => {
+                    let optStyle = 'bg-gray-900 border-gray-700/80 text-gray-200 hover:border-emerald-500 hover:bg-gray-800';
+                    if (answered) {
+                        if (optIdx === qItem.correct) {
+                            optStyle = 'bg-emerald-950 border-emerald-500 text-emerald-300 font-bold';
+                        } else if (optIdx === selected) {
+                            optStyle = 'bg-rose-950 border-rose-600 text-rose-300';
+                        } else {
+                            optStyle = 'bg-gray-900/40 border-gray-800 text-gray-500 opacity-60';
+                        }
+                    }
+
+                    html += `
+                        <button onclick="answerQuiz(${qIdx}, ${optIdx})" ${answered ? 'disabled' : ''} class="p-2.5 rounded-xl border text-sm sm:text-base font-quran transition flex items-center justify-center gap-2 ${optStyle}">
+                            <span>${opt}</span>
+                        </button>
+                    `;
+                });
+
+                if (answered && !isCorrect) {
+                    html += `
+                        <div class="text-[11px] text-amber-300/90 pt-1 flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                            <span>İpucu: ${qItem.hint}</span>
+                        </div>
+                    `;
+                }
+
+                html += `</div></div>`;
+            });
+
+            html += `
+                        </div>
+                    </div>
+
+                    <!-- İlk Sureler Okuma Pratiği -->
+                    <div class="bg-gray-900/80 border border-gray-800 p-5 sm:p-6 rounded-2xl space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-white text-base sm:text-lg flex items-center gap-2">
+                                <i class="fa-solid fa-book-quran text-emerald-400"></i> İlk Sureler Okuma Pratiği
+                            </h3>
+                            <span class="text-xs text-gray-400">Fâtiha, İhlâs, Felak, Nâs & Kevser</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                            <div class="p-4 rounded-xl bg-gray-950/80 border border-gray-800 space-y-2">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="font-bold text-white">1. Fâtiha Suresi</span>
+                                    <button onclick="openSurah(1)" class="text-emerald-400 hover:underline flex items-center gap-1">Sureyi Oku <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-400">Kur'an'ın kalbi, 7 ayetlik şifa ve dua suresi.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-gray-950/80 border border-gray-800 space-y-2">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="font-bold text-white">112. İhlâs Suresi</span>
+                                    <button onclick="openSurah(112)" class="text-emerald-400 hover:underline flex items-center gap-1">Sureyi Oku <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-400">Tevhid inancının özü, Kur'an'ın üçte birine denk sure.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-gray-950/80 border border-gray-800 space-y-2">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="font-bold text-white">113. Felak Suresi</span>
+                                    <button onclick="openSurah(113)" class="text-emerald-400 hover:underline flex items-center gap-1">Sureyi Oku <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-400">Sabah aydınlığının Rabbine sığınma suresi.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-gray-950/80 border border-gray-800 space-y-2">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="font-bold text-white">114. Nâs Suresi</span>
+                                    <button onclick="openSurah(114)" class="text-emerald-400 hover:underline flex items-center gap-1">Sureyi Oku <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-400">İnsanların Rabbine vesveselerden sığınma suresi.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-gray-950/80 border border-gray-800 space-y-2">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="font-bold text-white">108. Kevser Suresi</span>
+                                    <button onclick="openSurah(108)" class="text-emerald-400 hover:underline flex items-center gap-1">Sureyi Oku <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-400">Bitmeyen hayır ve bereket müjdesi.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-gray-950/80 border border-gray-800 space-y-2">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="font-bold text-white">103. Asr Suresi</span>
+                                    <button onclick="openSurah(103)" class="text-emerald-400 hover:underline flex items-center gap-1">Sureyi Oku <i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                                </div>
+                                <p class="text-xs text-gray-400">Zaman, iman, salih amel ve sabır tavsiyesi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return html;
+        }
+
+        // SES MOTORU (Web Speech API & Web Audio Synthesizer)
+        function playLearnLetter(soundName, arabicLetter) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(soundName);
+                utter.lang = 'tr-TR';
+                utter.rate = 0.85;
+                utter.pitch = 1.0;
+                window.speechSynthesis.speak(utter);
+            }
+            playToneSound(520, 'sine', 0.15);
+        }
+
+        function playLearnWord(reading, arabicWord) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(reading);
+                utter.lang = 'tr-TR';
+                utter.rate = 0.8;
+                utter.pitch = 1.0;
+                window.speechSynthesis.speak(utter);
+            }
+            playToneSound(440, 'triangle', 0.15);
+        }
+
+        function playToneSound(freq, type = 'sine', duration = 0.1) {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function answerQuiz(qIdx, selectedOpt) {
+            if (userQuizAnswers[qIdx] !== undefined) return;
+            userQuizAnswers[qIdx] = selectedOpt;
+
+            const qItem = QUIZ_QUESTIONS[qIdx];
+            if (selectedOpt === qItem.correct) {
+                quizScore++;
+                playToneSound(660, 'sine', 0.2);
+                setTimeout(() => playToneSound(880, 'sine', 0.25), 150);
+                showToast('Tebrikler! Doğru cevap.');
+            } else {
+                playToneSound(220, 'sawtooth', 0.3);
+                showToast('Yanlış cevap. İpucunu inceleyin.', 'error');
+            }
+
+            document.getElementById('learn-score-badge').innerText = `${quizScore} / ${QUIZ_QUESTIONS.length}`;
+            setLearnTab('quiz');
+        }
+
+        function resetQuiz() {
+            userQuizAnswers = {};
+            quizScore = 0;
+            document.getElementById('learn-score-badge').innerText = `0 / ${QUIZ_QUESTIONS.length}`;
+            setLearnTab('quiz');
+            showToast('Test sıfırlandı.');
+        }
+
+
         // =========================================================================
         // İSLAM TARİHİ FİHRİSTİ & KRONOLOJİSİ (DATA VE YÖNETİM FONKSİYONLARI)
         // =========================================================================
