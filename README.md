@@ -123,6 +123,35 @@ kuran-hadis-portali/
 
 ---
 
+## 📋 Güncellemeler & Sürüm Geçmişi (Changelog)
+
+### 🌟 v1.2 (Son Güncelleme)
+* **🎓 Kur'an Öğreniyorum (İnteraktif Elif-Bâ & Tecvid Akademisi):**
+  * Çocuklardan yetişkinlere A'dan Z'ye 8 aşamalı tam eğitim müfredatı.
+  * 28 harf kartı, mahreç bölgeleri, renkli rozetler (İnce/Kalın/Peltek) ve çocuklara özel görsel hafıza ipuçları.
+  * Harflerin başta, ortada ve sonda yazılış halleri + **birleşmeyen 6 harf** altın kuralı.
+  * Harekeler (Üstün, Esre, Ötre), Cezm (Sükun) ve Şedde sesli pratik tahtası.
+  * Tenvinler (En/İn/Ün) ve Med (Uzatma) harfleri kuralları ve örnekleri.
+  * Kolay Tecvid Rehberi: Kalkale, İhfa, İzhar, İdgam, İklab ve Lafzatullah izahları.
+  * Puanlı İnteraktif Test Oyunu ve İlk Sureler (Fâtiha, İhlâs, Felak, Nâs, Kevser, Asr) okuma alanı.
+* **🏛️ İslam Tarihi Fihristi & Kronolojisi:**
+  * Peygamberler Tarihi, Mekke & Medine Dönemi, Gazveler, Dört Halife ve Mushaf Tarihini içeren 34 kapsamlı tarihi hadise.
+  * Her hadise için Kur'an'daki ilgili ayet bağlantıları, manevi hikmetler, sesli okuma ve WhatsApp paylaşımı.
+* **🔊 Gelişmiş Ses ve Efekt Motoru:**
+  * Harflerin, kelimelerin ve tarihi olayların Web Speech API ve Web Audio Synthesizer ile interaktif seslendirilmesi.
+
+### 🌟 v1.1
+* **📜 Sahih Hadisler Külliyatı:** Kütüb-i Sitte ve Riyâzüs-Sâlihîn hadisleri, konu filtreleri ve sesli okuma.
+* **💬 WhatsApp Cuma & Özel Gün Mesajları:** Windows ve mobil cihazlarda soru işareti (`?`) oluşmasını engelleyen evrensel formatlama.
+* **🎨 1080x1080 HD Sosyal Medya Kart Üreticisi:** 5 tezhip teması ile ayet/hadis/tebrik görseli oluşturma.
+
+### 🌟 v1.0 (İlk Sürüm)
+* **📖 Tam Kur'an-ı Kerim Veritabanı:** 6.236 ayet, 114 sure, 30 cüz, 604 mushaf sayfası.
+* **🎙️ Çift Sesli Hatim Motoru:** Şeyh Mişari Raşid (Arapça) ve Hayri Küçükdeniz (Türkçe Meal) kesintisiz dinleme.
+* **🔍 FTS5 Akıllı Arama:** Yazım hatası ve şapkalı harf toleranslı arama motoru.
+
+---
+
 ## 📄 Lisans
 
 Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır. Ticari ve kişisel projelerinizde dilediğiniz gibi kullanabilir, özelleştirebilir ve paylaşabilirsiniz.
