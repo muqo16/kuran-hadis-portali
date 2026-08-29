@@ -58,7 +58,13 @@ Hiçbir harici ağır framework veya karmaşık SQL kurulumu gerektirmez; tek bi
 * Türkçe kök, şapkalı harf ve yazım yanlışı toleransı (*"healal"* yazılsa dahi *"helal"* ayetlerini listeler).
 * Arama sonuçlarını tek tıkla `.txt` dosyası olarak indirme veya PDF/Yazıcıya gönderme.
 
-### 7. 🎓 İnteraktif Kur'an Öğreniyorum (Elif-Bâ & Tecvid Akademisi)
+### 7. 🕌 81 İl Namaz Vakitleri & Vakit Girişinde Hadis Bildirimi
+* **81 İlin Tamamı:** Adana'dan Zonguldak'a tüm iller için Diyanet İşleri Başkanlığı hesaplama metodu (`method=13`).
+* **Canlı Geri Sayım & Aktif Vakit Işığı:** Bir sonraki vakte kalan süreyi saniyesi saniyesine canlı sayar, mevcut vakit kartını vurgular.
+* **Vakit Girdiğinde Hadis-i Şerif Bildirimi:** Vakit girdiğinde Peygamber Efendimiz'in (s.a.v.) o vakte özel sahih hadis-i şerifi ile hem görsel toast hem de tarayıcı masaüstü bildirimi gönderir.
+* **Hicri Takvim & Gece/Teheccüd Saatleri:** Miladi ve Hicri tarih bilgisi.
+
+### 8. 🎓 İnteraktif Kur'an Öğreniyorum (Elif-Bâ & Tecvid Akademisi)
 * **A'dan Z'ye 8 Aşamalı Müfredat:** Çocuklardan yetişkinlere herkesin kolayca Kur'an okumayı öğrenmesi için tasarlandı.
 * **28 Harf & Mahreç Kartları:** İnce, kalın ve peltek harf ayrımları, çocuklar için akılda kalıcı görsel benzetmeler ve tek tıkla sesli telaffuz.
 * **Harflerin Başta-Ortada-Sonda Halleri & Birleşmeyen 6 Harf:** İnteraktif kelime birleştirme örnekleri.
@@ -66,14 +72,14 @@ Hiçbir harici ağır framework veya karmaşık SQL kurulumu gerektirmez; tek bi
 * **Kolay Tecvid Rehberi:** Kalkale, İhfa, İzhar, İdgam, İklab ve Lafzatullah kuralları ve Kur'an'dan sesli örnekler.
 * **İnteraktif Mini Test & İlk Sureler:** Puanlı harf/kural tanıma testi, doğru/yanlış ses efektleri ve Fâtiha, İhlâs, Felak, Nâs sureleri okuma alanı.
 
-### 8. 🏛️ İslam Tarihi Fihristi & Kronolojisi
+### 9. 🏛️ İslam Tarihi Fihristi & Kronolojisi
 * Peygamberler Tarihi, Mekke & Medine Dönemi, Gazveler, Dört Halife ve Mushaf Tarihini kapsayan 34 kapsamlı tarihi hadise.
 * Her hadisenin Kur'an'daki ilgili ayetleri, doğrudan o sureyi açan butonlar, manevi hikmetler, sesli okuma ve WhatsApp paylaşımı.
 
-### 9. 👁️ Göz Dinlendiren Sıcak Krem & Koyu Tema
+### 10. 👁️ Göz Dinlendiren Sıcak Krem & Koyu Tema
 * Gözü yormayan dinlendirici **Sıcak Krem Açık Tema** (`#fbf8f1`).
 * Gece okumaları için OLED dostu derin **Koyu Tema** (`#030712`).
-* 10 ana sekmenin hiçbir ekranda taşmadığı responsive üst menü.
+* 11 ana sekmenin hiçbir ekranda taşmadığı responsive üst menü.
 
 ---
 
@@ -117,6 +123,7 @@ kuran-hadis-portali/
 * **Backend:** Saf PHP 7.4 / 8.0+ (PDO SQLite modülü yeterlidir)
 * **Veritabanı:** SQLite 3 (FTS5 Full-Text Search destekli)
 * **Frontend:** HTML5, Modern Vanilla JavaScript (ES6+), Tailwind CSS 3
+* **Namaz API:** Aladhan API (Diyanet Method 13) + Çevrimdışı Güvencesi
 * **Grafik & Kart Motoru:** HTML5 Canvas API (1080x1080 HD export)
 * **Ses Motoru:** HTML5 Web Audio + Web Speech Synthesis API
 * **Yazı Tipleri:** Google Amiri Quran, Segoe UI, Georgia
@@ -125,7 +132,12 @@ kuran-hadis-portali/
 
 ## 📋 Güncellemeler & Sürüm Geçmişi (Changelog)
 
-### 🌟 v1.2 (Son Güncelleme)
+### 🌟 v1.3 (Son Güncelleme)
+* **🕌 81 İl Namaz Vakitleri & Hadis-i Şerif Bildirim Modülü:**
+  * Türkiye'nin tüm 81 ili için Diyanet uyumlu anlık vakitler.
+  * Canlı saniyelik geri sayım sayacı ve aktif vakit aydınlatması.
+  * Vakit girdiğinde Peygamberimiz'in (s.a.v.) o vakte has sahih hadisiyle toast & masaüstü bildirimi.
+  * Şehir seçiminin `localStorage` ile otomatik hatırlanması.
 * **🎓 Kur'an Öğreniyorum (İnteraktif Elif-Bâ & Tecvid Akademisi):**
   * Çocuklardan yetişkinlere A'dan Z'ye 8 aşamalı tam eğitim müfredatı.
   * 28 harf kartı, mahreç bölgeleri, renkli rozetler (İnce/Kalın/Peltek) ve çocuklara özel görsel hafıza ipuçları.

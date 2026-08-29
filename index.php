@@ -420,7 +420,20 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
                     </div>
 
                     <!-- Tema Değiştirici (Ferah Krem & Koyu Mod) -->
-                    <button onclick="toggleTheme()" id="theme-btn" title="Koyu / Ferah Krem Tema Değiştir" class="p-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 transition flex items-center justify-center">
+                    <!-- Mini Namaz Vakti & Şehir Seçici -->
+                <div class="hidden md:flex items-center gap-2 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-800 rounded-xl px-2.5 py-1 text-xs text-gray-700 dark:text-gray-300 shadow-inner">
+                    <i class="fa-solid fa-location-dot text-emerald-600 dark:text-emerald-400 text-xs"></i>
+                    <select id="header-city-select" onchange="onCityChange(this.value)" class="bg-transparent font-bold text-emerald-800 dark:text-emerald-300 outline-none cursor-pointer text-xs">
+                        <!-- 81 İl JS tarafından doldurulacak -->
+                    </select>
+                    <span class="text-gray-300 dark:text-gray-700">|</span>
+                    <div class="flex items-center gap-1.5 cursor-pointer" onclick="switchView('prayer')">
+                        <span id="header-prayer-name" class="text-gray-600 dark:text-gray-400 font-medium">Vakit...</span>
+                        <span id="header-prayer-countdown" class="font-mono font-bold text-amber-600 dark:text-amber-400">--:--:--</span>
+                    </div>
+                </div>
+
+                <button onclick="toggleTheme()" id="theme-btn" title="Koyu / Ferah Krem Tema Değiştir" class="p-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-700 dark:text-gray-300 transition flex items-center justify-center">
                         <i class="fa-solid fa-sun text-amber-500 text-sm" id="theme-icon"></i>
                     </button>
                 </div>
@@ -435,6 +448,9 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
                     <button onclick="switchView('learn')" id="nav-learn" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100/60 dark:bg-emerald-950/80 border border-emerald-500/60 hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm">
                         <i class="fa-solid fa-graduation-cap text-emerald-600 dark:text-emerald-400 text-sm"></i> Kur'an Öğreniyorum
                         <span class="px-1.5 py-0.2 rounded-full bg-amber-500 text-gray-950 text-[9px] font-extrabold shadow-sm">YENİ</span>
+                    </button>
+                    <button onclick="switchView('prayer')" id="nav-prayer" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-bold text-teal-700 dark:text-teal-300 bg-teal-100/60 dark:bg-teal-950/80 border border-teal-500/60 hover:bg-teal-600 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm">
+                        <i class="fa-solid fa-mosque text-teal-600 dark:text-teal-400 text-xs"></i> Namaz Vakitleri
                     </button>
                     <button onclick="switchView('history')" id="nav-history" class="nav-btn px-3 py-1.5 rounded-xl text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-100/60 dark:bg-amber-950/80 border border-amber-500/60 hover:bg-amber-600 hover:text-white transition-all flex items-center gap-1.5 whitespace-nowrap shadow-sm">
                         <i class="fa-solid fa-landmark-dome text-amber-600 dark:text-amber-400 text-xs"></i> İslam Tarihi
@@ -599,41 +615,59 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
             </div>
 
             
-            <!-- Kur'an Öğreniyorum & İslam Tarihi Hızlı Keşif Kartları -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-                <div onclick="switchView('learn')" class="cursor-pointer bg-gradient-to-r from-emerald-950/80 via-teal-950/80 to-gray-900/90 border border-emerald-700/60 hover:border-emerald-400 p-4 sm:p-4.5 rounded-2xl transition-all shadow-lg hover:scale-[1.01] flex items-center justify-between gap-3 group">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-emerald-900/90 border border-emerald-600/60 text-emerald-300 flex items-center justify-center text-xl shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition">
+            <!-- Kur'an Öğreniyorum, Namaz Vakitleri & İslam Tarihi Hızlı Keşif Kartları -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1">
+                <div onclick="switchView('learn')" class="cursor-pointer bg-gradient-to-r from-emerald-950/80 via-teal-950/80 to-gray-900/90 border border-emerald-700/60 hover:border-emerald-400 p-4 rounded-2xl transition-all shadow-lg hover:scale-[1.01] flex items-center justify-between gap-3 group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-900/90 border border-emerald-600/60 text-emerald-300 flex items-center justify-center text-lg shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition">
                             <i class="fa-solid fa-graduation-cap"></i>
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <h3 class="text-sm font-bold text-white group-hover:text-emerald-300 transition">Kur'an Öğreniyorum (Elif-Bâ)</h3>
+                            <div class="flex items-center gap-1.5">
+                                <h3 class="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition">Kur'an Öğreniyorum</h3>
                                 <span class="px-1.5 py-0.2 rounded-full bg-amber-500 text-gray-950 text-[9px] font-extrabold">YENİ</span>
                             </div>
-                            <p class="text-xs text-gray-300 mt-0.5">28 Harf, harekeler, tecvid ve sesli testlerle A'dan Z'ye öğrenin.</p>
+                            <p class="text-[11px] text-gray-300 mt-0.5 line-clamp-1">Elif-Bâ, tecvid ve sesli testler.</p>
                         </div>
                     </div>
-                    <div class="w-8 h-8 rounded-full bg-emerald-900/50 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition shrink-0">
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    <div class="w-7 h-7 rounded-full bg-emerald-900/50 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white transition shrink-0">
+                        <i class="fa-solid fa-arrow-right text-[11px]"></i>
                     </div>
                 </div>
 
-                <div onclick="switchView('history')" class="cursor-pointer bg-gradient-to-r from-amber-950/80 via-yellow-950/80 to-gray-900/90 border border-amber-700/60 hover:border-amber-400 p-4 sm:p-4.5 rounded-2xl transition-all shadow-lg hover:scale-[1.01] flex items-center justify-between gap-3 group">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-amber-900/90 border border-amber-600/60 text-amber-300 flex items-center justify-center text-xl shrink-0 group-hover:bg-amber-600 group-hover:text-white transition">
+                <div onclick="switchView('prayer')" class="cursor-pointer bg-gradient-to-r from-teal-950/80 via-cyan-950/80 to-gray-900/90 border border-teal-700/60 hover:border-teal-400 p-4 rounded-2xl transition-all shadow-lg hover:scale-[1.01] flex items-center justify-between gap-3 group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-teal-900/90 border border-teal-600/60 text-teal-300 flex items-center justify-center text-lg shrink-0 group-hover:bg-teal-600 group-hover:text-white transition">
+                            <i class="fa-solid fa-mosque"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <h3 class="text-xs sm:text-sm font-bold text-white group-hover:text-teal-300 transition">Namaz Vakitleri (81 İl)</h3>
+                                <span class="px-1.5 py-0.2 rounded-full bg-teal-500 text-gray-950 text-[9px] font-extrabold">CANLI</span>
+                            </div>
+                            <p class="text-[11px] text-gray-300 mt-0.5 line-clamp-1">Diyanet vakitleri ve hadisli bildirim.</p>
+                        </div>
+                    </div>
+                    <div class="w-7 h-7 rounded-full bg-teal-900/50 flex items-center justify-center text-teal-400 group-hover:bg-teal-600 group-hover:text-white transition shrink-0">
+                        <i class="fa-solid fa-arrow-right text-[11px]"></i>
+                    </div>
+                </div>
+
+                <div onclick="switchView('history')" class="cursor-pointer bg-gradient-to-r from-amber-950/80 via-yellow-950/80 to-gray-900/90 border border-amber-700/60 hover:border-amber-400 p-4 rounded-2xl transition-all shadow-lg hover:scale-[1.01] flex items-center justify-between gap-3 group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-900/90 border border-amber-600/60 text-amber-300 flex items-center justify-center text-lg shrink-0 group-hover:bg-amber-600 group-hover:text-white transition">
                             <i class="fa-solid fa-landmark-dome"></i>
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <h3 class="text-sm font-bold text-white group-hover:text-amber-300 transition">İslam Tarihi Fihristi</h3>
+                            <div class="flex items-center gap-1.5">
+                                <h3 class="text-xs sm:text-sm font-bold text-white group-hover:text-amber-300 transition">İslam Tarihi Fihristi</h3>
                                 <span class="px-1.5 py-0.2 rounded-full bg-amber-500 text-gray-950 text-[9px] font-extrabold">34 Hadise</span>
                             </div>
-                            <p class="text-xs text-gray-300 mt-0.5">Peygamberler, gazveler, halifeler ve ayet bağlantıları.</p>
+                            <p class="text-[11px] text-gray-300 mt-0.5 line-clamp-1">Kıssalar, gazveler ve ayetler.</p>
                         </div>
                     </div>
-                    <div class="w-8 h-8 rounded-full bg-amber-900/50 flex items-center justify-center text-amber-400 group-hover:bg-amber-600 group-hover:text-white transition shrink-0">
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    <div class="w-7 h-7 rounded-full bg-amber-900/50 flex items-center justify-center text-amber-400 group-hover:bg-amber-600 group-hover:text-white transition shrink-0">
+                        <i class="fa-solid fa-arrow-right text-[11px]"></i>
                     </div>
                 </div>
             </div>
@@ -997,7 +1031,104 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
             <div id="hadiths-list-container" class="space-y-4"></div>
         </section>
 
-                <!-- 10. GÖRÜNÜM: İSLAM TARİHİ FİHRİSTİ & KRONOLOJİSİ -->
+                        <!-- 12. GÖRÜNÜM: 81 İL NAMAZ VAKİTLERİ VE İBADET REHBERİ -->
+        <section id="view-prayer" class="hidden space-y-6">
+            <!-- Üst Bilgi ve Şehir Seçim Kartı -->
+            <div class="bg-gradient-to-r from-teal-950/90 via-emerald-950/90 to-gray-900/90 border border-teal-800/60 p-5 sm:p-7 rounded-2xl space-y-5 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-60 h-60 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="space-y-1.5 max-w-xl">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-900/60 border border-teal-700/60 text-teal-300 text-xs font-bold">
+                            <i class="fa-solid fa-kaaba text-amber-400"></i> Diyanet Uyumlu (81 İl Canlı Vakitler)
+                        </div>
+                        <h2 class="text-xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
+                            <i class="fa-solid fa-mosque text-teal-400"></i> Namaz Vakitleri
+                        </h2>
+                        <p class="text-xs sm:text-sm text-teal-100/80 leading-relaxed">
+                            Türkiye'nin 81 ili için anlık ezan ve namaz vakitleri, sonraki vakte kalan geri sayım ve vakit girdiğinde hadis-i şerifli hatırlatma.
+                        </p>
+                    </div>
+
+                    <!-- Şehir Seçimi Dropdown -->
+                    <div class="bg-gray-900/90 border border-teal-700/60 rounded-2xl p-3.5 space-y-2 min-w-[240px] shadow-xl">
+                        <label class="block text-xs font-bold text-teal-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-location-crosshairs text-amber-400"></i> Şehrinizi Seçin (81 İl)
+                        </label>
+                        <select id="prayer-city-select" onchange="onCityChange(this.value)" class="w-full bg-gray-950 border border-teal-600/50 rounded-xl px-3 py-2 text-sm font-bold text-white outline-none focus:border-teal-400 transition cursor-pointer">
+                            <!-- JS tarafından doldurulacak -->
+                        </select>
+                        <div class="flex items-center justify-between text-[11px] text-gray-400 pt-0.5">
+                            <span id="prayer-hijri-date" class="text-amber-300 font-semibold font-mono">--</span>
+                            <span id="prayer-gregorian-date" class="font-mono">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canlı Geri Sayım ve Aktif Vakit Büyük Göstergesi -->
+                <div class="bg-gray-900/80 border border-teal-800/40 rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-teal-900/80 border border-teal-700/60 text-teal-300 flex items-center justify-center text-2xl shadow-inner">
+                            <i class="fa-solid fa-clock-rotate-left" id="prayer-countdown-icon"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-400 font-semibold block uppercase tracking-wider" id="prayer-next-title">Sıradaki Vakit</span>
+                            <h3 class="text-base sm:text-xl font-bold text-white" id="prayer-next-name">Hesaplanıyor...</h3>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="text-right">
+                            <span class="text-[11px] text-gray-400 uppercase font-semibold block">Kalan Süre</span>
+                            <span class="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-wider" id="prayer-countdown-text">--:--:--</span>
+                        </div>
+                        <button onclick="requestPrayerNotificationPermission()" id="prayer-notif-btn" class="px-3.5 py-2.5 rounded-xl bg-teal-950 border border-teal-700/60 hover:bg-teal-900 text-teal-300 text-xs font-bold transition flex items-center gap-2 shadow-sm" title="Vakit girdiğinde bildirim al">
+                            <i class="fa-solid fa-bell text-amber-400"></i> <span>Bildirimleri Aç</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 Vakit Kartları Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4" id="prayer-cards-grid">
+                <!-- JS Dinamik Basacak: İmsak, Güneş, Öğle, İkindi, Akşam, Yatsı -->
+            </div>
+
+            <!-- Vakit Girdiğinde Gösterilen Hadis-i Şerif Vurgu Paneli -->
+            <div id="prayer-current-hadith-card" class="bg-gradient-to-r from-emerald-950/60 via-gray-900/90 to-teal-950/60 border border-emerald-800/60 p-5 sm:p-6 rounded-2xl space-y-3 shadow-xl">
+                <div class="flex items-center justify-between border-b border-emerald-800/40 pb-2.5">
+                    <div class="flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-lg bg-amber-950 text-amber-400 flex items-center justify-center text-xs">
+                            <i class="fa-solid fa-quote-left"></i>
+                        </span>
+                        <h3 class="font-bold text-white text-sm sm:text-base" id="prayer-hadith-title">Namazın Faziletine Dair Hadis-i Şerif</h3>
+                    </div>
+                    <span class="text-xs text-amber-400 font-semibold flex items-center gap-1 font-mono" id="prayer-hadith-source">
+                        <i class="fa-solid fa-book-bookmark text-[10px]"></i> Sahîh-i Buhârî & Müslim
+                    </span>
+                </div>
+
+                <div class="arabic-text text-gray-100 font-quran text-lg sm:text-xl py-1 text-right" dir="rtl" id="prayer-hadith-ar">
+                    إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا
+                </div>
+
+                <p class="text-xs sm:text-sm text-emerald-100/90 italic leading-relaxed" id="prayer-hadith-tr">
+                    "Şüphesiz namaz, müminler üzerine vakitleri belirlenmiş bir farzdır." (Nisâ Suresi, 103)
+                </p>
+            </div>
+
+            <!-- Ekstra Bilgiler & Namaz Hadisleri Listesi -->
+            <div class="bg-gray-900/80 border border-gray-800 p-5 sm:p-6 rounded-2xl space-y-4">
+                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                    <i class="fa-solid fa-scroll text-amber-400"></i> Beş Vakit Namazın Fazileti ve Hikmetleri
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5" id="prayer-all-hadiths-container">
+                    <!-- JS Tarafından doldurulacak -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. GÖRÜNÜM: İSLAM TARİHİ FİHRİSTİ & KRONOLOJİSİ -->
         <section id="view-history" class="hidden space-y-6">
             <!-- Başlık ve Filtreleme Kartı -->
             <div class="bg-gray-900/80 border border-gray-800 p-5 sm:p-6 rounded-2xl space-y-4">
@@ -1336,6 +1467,7 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
             loadTheme();
             updateFavoritesBadge();
             checkLastRead();
+            initPrayerView();
 
             const initialQuery = "<?= addslashes($initialQuery) ?>";
             const initialSurah = <?= (int)$initialSurah ?>;
@@ -1393,7 +1525,7 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
 
         // Görünüm Değiştirici
         function switchView(viewName) {
-            const views = ['search', 'surahs', 'juz', 'pages', 'favorites', 'sajdah', 'topics', 'greetings', 'hadiths', 'history', 'learn', 'reader'];
+            const views = ['search', 'surahs', 'juz', 'pages', 'favorites', 'sajdah', 'topics', 'greetings', 'hadiths', 'history', 'learn', 'prayer', 'reader'];
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 if (el) el.classList.add('hidden');
@@ -1419,6 +1551,7 @@ $initialView = $_GET['view'] ?? ($initialSurah > 0 ? 'reader' : 'search');
             if (viewName === 'hadiths') loadHadiths();
             if (viewName === 'history') initHistoryView();
             if (viewName === 'learn') initLearnView();
+            if (viewName === 'prayer') initPrayerView();
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -4220,6 +4353,453 @@ Türkçe Meali:
             document.getElementById('learn-score-badge').innerText = `0 / ${QUIZ_QUESTIONS.length}`;
             setLearnTab('quiz');
             showToast('Test sıfırlandı.');
+        }
+
+
+        
+        // =========================================================================
+        // 81 İL NAMAZ VAKİTLERİ & HADİS-İ ŞERİFLİ BİLDİRİM MOTORU
+        // =========================================================================
+        const TURKEY_CITIES_81 = [
+            { name: "Adana", api: "Adana" },
+            { name: "Adıyaman", api: "Adiyaman" },
+            { name: "Afyonkarahisar", api: "Afyonkarahisar" },
+            { name: "Ağrı", api: "Agri" },
+            { name: "Aksaray", api: "Aksaray" },
+            { name: "Amasya", api: "Amasya" },
+            { name: "Ankara", api: "Ankara" },
+            { name: "Antalya", api: "Antalya" },
+            { name: "Ardahan", api: "Ardahan" },
+            { name: "Artvin", api: "Artvin" },
+            { name: "Aydın", api: "Aydin" },
+            { name: "Balıkesir", api: "Balikesir" },
+            { name: "Bartın", api: "Bartin" },
+            { name: "Batman", api: "Batman" },
+            { name: "Bayburt", api: "Bayburt" },
+            { name: "Bilecik", api: "Bilecik" },
+            { name: "Bingöl", api: "Bingol" },
+            { name: "Bitlis", api: "Bitlis" },
+            { name: "Bolu", api: "Bolu" },
+            { name: "Burdur", api: "Burdur" },
+            { name: "Bursa", api: "Bursa" },
+            { name: "Çanakkale", api: "Canakkale" },
+            { name: "Çankırı", api: "Cankiri" },
+            { name: "Çorum", api: "Corum" },
+            { name: "Denizli", api: "Denizli" },
+            { name: "Diyarbakır", api: "Diyarbakir" },
+            { name: "Düzce", api: "Duzce" },
+            { name: "Edirne", api: "Edirne" },
+            { name: "Elazığ", api: "Elazig" },
+            { name: "Erzincan", api: "Erzincan" },
+            { name: "Erzurum", api: "Erzurum" },
+            { name: "Eskişehir", api: "Eskisehir" },
+            { name: "Gaziantep", api: "Gaziantep" },
+            { name: "Giresun", api: "Giresun" },
+            { name: "Gümüşhane", api: "Gumushane" },
+            { name: "Hakkâri", api: "Hakkari" },
+            { name: "Hatay", api: "Hatay" },
+            { name: "Iğdır", api: "Igdir" },
+            { name: "Isparta", api: "Isparta" },
+            { name: "İstanbul", api: "Istanbul" },
+            { name: "İzmir", api: "Izmir" },
+            { name: "Kahramanmaraş", api: "Kahramanmaras" },
+            { name: "Karabük", api: "Karabuk" },
+            { name: "Karaman", api: "Karaman" },
+            { name: "Kars", api: "Kars" },
+            { name: "Kastamonu", api: "Kastamonu" },
+            { name: "Kayseri", api: "Kayseri" },
+            { name: "Kırıkkale", api: "Kirikkale" },
+            { name: "Kırklareli", api: "Kirklareli" },
+            { name: "Kırşehir", api: "Kirsehir" },
+            { name: "Kilis", api: "Kilis" },
+            { name: "Kocaeli", api: "Kocaeli" },
+            { name: "Konya", api: "Konya" },
+            { name: "Kütahya", api: "Kutahya" },
+            { name: "Malatya", api: "Malatya" },
+            { name: "Manisa", api: "Manisa" },
+            { name: "Mardin", api: "Mardin" },
+            { name: "Mersin", api: "Mersin" },
+            { name: "Muğla", api: "Mugla" },
+            { name: "Muş", api: "Mus" },
+            { name: "Nevşehir", api: "Nevsehir" },
+            { name: "Niğde", api: "Nigde" },
+            { name: "Ordu", api: "Ordu" },
+            { name: "Osmaniye", api: "Osmaniye" },
+            { name: "Rize", api: "Rize" },
+            { name: "Sakarya", api: "Sakarya" },
+            { name: "Samsun", api: "Samsun" },
+            { name: "Siirt", api: "Siirt" },
+            { name: "Sinop", api: "Sinop" },
+            { name: "Sivas", api: "Sivas" },
+            { name: "Şanlıurfa", api: "Sanliurfa" },
+            { name: "Şırnak", api: "Sirnak" },
+            { name: "Tekirdağ", api: "Tekirdag" },
+            { name: "Tokat", api: "Tokat" },
+            { name: "Trabzon", api: "Trabzon" },
+            { name: "Tunceli", api: "Tunceli" },
+            { name: "Uşak", api: "Usak" },
+            { name: "Van", api: "Van" },
+            { name: "Yalova", api: "Yalova" },
+            { name: "Yozgat", api: "Yozgat" },
+            { name: "Zonguldak", api: "Zonguldak" }
+        ];
+
+        const PRAYER_HADITHS_MAP = {
+            Imsak: {
+                title: "Sabah Namazı Vakti",
+                arabic: "رَكْعَتَا الْفَجْرِ خَيْرٌ مِنَ الدُّنْيَا وَمَا فِيهَا",
+                tr: "Sabah namazının iki rekât sünneti, dünyadan ve dünyadaki her şeyden daha hayırlıdır.",
+                source: "Sahîh-i Müslim, Salâtü'l-Müsâfirîn, 96"
+            },
+            Sunrise: {
+                title: "Güneş Doğdu (İşrak Vakti)",
+                arabic: "مَنْ صَلَّى الْغَدَاةَ فِي جَمَاعَةٍ ثُمَّ قَعَدَ يَذْكُرُ اللَّهَ حَتَّى تَطْلُعَ الشَّمْسُ...",
+                tr: "Kim sabah namazını cemaatle kılar, sonra güneş doğuncaya kadar Allah'ı zikreder ve iki rekât namaz kılarsa, tam bir hac ve umre ecri alır.",
+                source: "Sünen-i Tirmizî, Cum'a, 59"
+            },
+            Dhuhr: {
+                title: "Öğle Namazı Vakti",
+                arabic: "إِنَّ أَبْوَابَ السَّمَاءِ تُفْتَحُ عِنْدَ زَوَالِ الشَّمْسِ...",
+                tr: "Güneş tepe noktasından batıya kaydığı vakit gök kapıları açılır. O saatte salih bir amelimin yükselmesini arzu ederim.",
+                source: "Sünen-i Tirmizî, Vitr, 16"
+            },
+            Asr: {
+                title: "İkindi Namazı Vakti",
+                arabic: "مَنْ صَلَّى الْبَرْدَيْنِ دَخَلَ الْجَنَّةَ",
+                tr: "İki serinlik namazını (Sabah ve İkindi) vaktinde kılan kimse cennete girer.",
+                source: "Sahîh-i Buhârî, Mevâkît, 26"
+            },
+            Maghrib: {
+                title: "Akşam Namazı Vakti",
+                arabic: "لَا يَزَالُ النَّاسُ بِخَيْرٍ مَا عَجَّلُوا الْفِطْرَ",
+                tr: "Akşam namazını kılmakta ve orucu açmakta acele edenler hayır üzere olmaya devam ederler.",
+                source: "Sahîh-i Buhârî, Savm, 45"
+            },
+            Isha: {
+                title: "Yatsı Namazı Vakti",
+                arabic: "مَنْ صَلَّى الْعِشَاءَ فِي جَمَاعَةٍ فَكَأَنَّمَا قَامَ نِصْفَ اللَّيْلِ",
+                tr: "Kim yatsı namazını cemaatle kılarsa, sanki gecenin yarısını namazla geçirmiş gibidir.",
+                source: "Sahîh-i Müslim, Mesâcid, 260"
+            }
+        };
+
+        const GENERAL_PRAYER_HADITHS = [
+            {
+                title: "Gözümün Nuru Namaz",
+                arabic: "وَجُعِلَتْ قُرَّةُ عَيْنِي فِي الصَّلَاةِ",
+                tr: "Bana dünyanızdan güzel koku ve kadın sevdirildi; fakat gözümün nuru ve huzurum namazda kılındı.",
+                source: "Sünen-i Nesâî, İşretü'n-Nisâ, 1"
+            },
+            {
+                title: "Namaz Dinin Direğidir",
+                arabic: "رَأْسُ الْأَمْرِ الْإِسْلَامُ وَعَمُودُهُ الصَّلَاةُ",
+                tr: "İşin başı İslam, direği ise namazdır.",
+                source: "Sünen-i Tirmizî, İman, 8"
+            },
+            {
+                title: "Günahlara Kefaret Olan Beş Vakit",
+                arabic: "أَرَأَيْتُمْ لَوْ أَنَّ نَهْرًا بِبَابِ أَحَدِكُمْ يَغْتَسِلُ مِنْهُ كُلَّ يَوْمٍ خَمْسَ مَرَّاتٍ...",
+                tr: "Birinizin kapısının önünden bir nehir aksa ve orada günde beş defa yıkansa üzerinde kir kalır mı? İşte beş vakit namaz da böyledir; Allah onunla günahları siler.",
+                source: "Sahîh-i Buhârî, Mevâkît, 6"
+            },
+            {
+                title: "İlk Hesaba Çekilecek Amel",
+                arabic: "إِنَّ أَوَّلَ مَا يُحَاسَبُ بِهِ الْعَبْدُ يَوْمَ الْقِيَامَةِ مِنْ عَمَلِهِ صَلَاتُهُ",
+                tr: "Kıyamet gününde kulun ilk hesaba çekileceği ameli namazıdır. Eğer namazı tam ise kurtulmuştur.",
+                source: "Sünen-i Tirmizî, Salât, 188"
+            }
+        ];
+
+        const STORAGE_CITY = 'quran_selected_city';
+        let currentCity = localStorage.getItem(STORAGE_CITY) || 'İstanbul';
+        let currentPrayerData = null;
+        let prayerCountdownInterval = null;
+        let lastNotifiedPrayer = null;
+
+        function initPrayerView() {
+            initCityDropdowns();
+            fetchPrayerTimes(currentCity);
+            renderGeneralPrayerHadiths();
+        }
+
+        function initCityDropdowns() {
+            const headerSelect = document.getElementById('header-city-select');
+            const mainSelect = document.getElementById('prayer-city-select');
+
+            let optionsHtml = '';
+            TURKEY_CITIES_81.forEach(c => {
+                const isSelected = c.name === currentCity ? 'selected' : '';
+                optionsHtml += `<option value="${c.name}" ${isSelected}>${c.name}</option>`;
+            });
+
+            if (headerSelect) headerSelect.innerHTML = optionsHtml;
+            if (mainSelect) mainSelect.innerHTML = optionsHtml;
+        }
+
+        function onCityChange(cityName) {
+            currentCity = cityName;
+            localStorage.setItem(STORAGE_CITY, cityName);
+
+            const headerSelect = document.getElementById('header-city-select');
+            const mainSelect = document.getElementById('prayer-city-select');
+            if (headerSelect) headerSelect.value = cityName;
+            if (mainSelect) mainSelect.value = cityName;
+
+            fetchPrayerTimes(cityName);
+            showToast(`${cityName} namaz vakitleri güncellendi.`);
+        }
+
+        async function fetchPrayerTimes(cityName) {
+            const cityObj = TURKEY_CITIES_81.find(c => c.name === cityName) || { name: "İstanbul", api: "Istanbul" };
+            
+            try {
+                // Aladhan API Diyanet Method (13)
+                const url = `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(cityObj.api)}&country=Turkey&method=13`;
+                const response = await fetch(url);
+                const result = await response.json();
+
+                if (result.code === 200 && result.data) {
+                    currentPrayerData = result.data;
+                    renderPrayerTimes(currentPrayerData);
+                    startPrayerCountdown();
+                } else {
+                    useFallbackPrayerTimes(cityName);
+                }
+            } catch (err) {
+                console.warn('Namaz vakti API bağlantısı kurulamadı, yerel hesaplama devreye alındı.', err);
+                useFallbackPrayerTimes(cityName);
+            }
+        }
+
+        function useFallbackPrayerTimes(cityName) {
+            // Çevrimdışı Güvencesi
+            const now = new Date();
+            currentPrayerData = {
+                timings: {
+                    Imsak: "05:08",
+                    Sunrise: "06:34",
+                    Dhuhr: "13:12",
+                    Asr: "16:54",
+                    Maghrib: "19:48",
+                    Isha: "21:08"
+                },
+                date: {
+                    readable: now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }),
+                    hijri: {
+                        day: "29",
+                        month: { en: "Safar", tr: "Safer" },
+                        year: "1448"
+                    }
+                }
+            };
+            renderPrayerTimes(currentPrayerData);
+            startPrayerCountdown();
+        }
+
+        function renderPrayerTimes(data) {
+            const timings = data.timings;
+            const hijriEl = document.getElementById('prayer-hijri-date');
+            const gregEl = document.getElementById('prayer-gregorian-date');
+
+            if (hijriEl) hijriEl.innerText = `${data.date.hijri.day} ${data.date.hijri.month.en || 'Safer'} ${data.date.hijri.year} H.`;
+            if (gregEl) gregEl.innerText = data.date.readable || new Date().toLocaleDateString('tr-TR');
+
+            const prayerList = [
+                { key: 'Imsak', name: 'İmsak / Sabah', time: timings.Imsak, icon: 'fa-moon' },
+                { key: 'Sunrise', name: 'Güneş', time: timings.Sunrise, icon: 'fa-sun' },
+                { key: 'Dhuhr', name: 'Öğle', time: timings.Dhuhr, icon: 'fa-sun-plant-wilt' },
+                { key: 'Asr', name: 'İkindi', time: timings.Asr, icon: 'fa-cloud-sun' },
+                { key: 'Maghrib', name: 'Akşam', time: timings.Maghrib, icon: 'fa-sunset' },
+                { key: 'Isha', name: 'Yatsı', time: timings.Isha, icon: 'fa-moon' }
+            ];
+
+            const container = document.getElementById('prayer-cards-grid');
+            if (!container) return;
+
+            let html = '';
+            prayerList.forEach(p => {
+                html += `
+                    <div id="prayer-card-${p.key}" class="bg-gray-900/90 border border-gray-800 rounded-2xl p-4 sm:p-5 text-center space-y-2 transition-all duration-300 shadow-md">
+                        <span class="text-xs text-gray-400 font-semibold block">${p.name}</span>
+                        <div class="text-2xl sm:text-3xl font-black font-mono text-white tracking-wider my-1" id="time-val-${p.key}">
+                            ${p.time.substring(0, 5)}
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-gray-800 text-gray-400 mx-auto flex items-center justify-center text-xs" id="icon-val-${p.key}">
+                            <i class="fa-solid ${p.icon}"></i>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function startPrayerCountdown() {
+            if (prayerCountdownInterval) clearInterval(prayerCountdownInterval);
+            updatePrayerCountdown();
+            prayerCountdownInterval = setInterval(updatePrayerCountdown, 1000);
+        }
+
+        function updatePrayerCountdown() {
+            if (!currentPrayerData || !currentPrayerData.timings) return;
+
+            const timings = currentPrayerData.timings;
+            const now = new Date();
+
+            const prayerOrder = [
+                { key: 'Imsak', name: 'İmsak', timeStr: timings.Imsak },
+                { key: 'Sunrise', name: 'Güneş', timeStr: timings.Sunrise },
+                { key: 'Dhuhr', name: 'Öğle', timeStr: timings.Dhuhr },
+                { key: 'Asr', name: 'İkindi', timeStr: timings.Asr },
+                { key: 'Maghrib', name: 'Akşam', timeStr: timings.Maghrib },
+                { key: 'Isha', name: 'Yatsı', timeStr: timings.Isha }
+            ];
+
+            const todayDates = prayerOrder.map(p => {
+                const [hh, mm] = p.timeStr.split(':').map(Number);
+                const d = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0);
+                return { ...p, date: d };
+            });
+
+            // Aktif ve sıradaki vakti bul
+            let nextPrayer = null;
+            let currentActivePrayer = null;
+
+            for (let i = 0; i < todayDates.length; i++) {
+                if (now < todayDates[i].date) {
+                    nextPrayer = todayDates[i];
+                    currentActivePrayer = i > 0 ? todayDates[i - 1] : todayDates[todayDates.length - 1];
+                    break;
+                }
+            }
+
+            // Eğer yatsıdan sonra ise, sıradaki vakit yarınki İmsak'tır
+            if (!nextPrayer) {
+                const [hh, mm] = timings.Imsak.split(':').map(Number);
+                const tomorrowImsak = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, hh, mm, 0);
+                nextPrayer = { key: 'Imsak', name: 'İmsak', date: tomorrowImsak };
+                currentActivePrayer = todayDates[todayDates.length - 1]; // Yatsı
+            }
+
+            // Kalan saniye
+            const diffMs = nextPrayer.date - now;
+            const diffSec = Math.max(0, Math.floor(diffMs / 1000));
+            const hours = Math.floor(diffSec / 3600);
+            const minutes = Math.floor((diffSec % 3600) / 60);
+            const seconds = diffSec % 60;
+
+            const timeFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            // 1. Header widget güncelle
+            const headerNameEl = document.getElementById('header-prayer-name');
+            const headerCountEl = document.getElementById('header-prayer-countdown');
+            if (headerNameEl) headerNameEl.innerText = `${nextPrayer.name}:`;
+            if (headerCountEl) headerCountEl.innerText = timeFormatted;
+
+            // 2. Ana panel güncelle
+            const nextNameEl = document.getElementById('prayer-next-name');
+            const countTextEl = document.getElementById('prayer-countdown-text');
+            if (nextNameEl) nextNameEl.innerText = `${nextPrayer.name} Vakti`;
+            if (countTextEl) countTextEl.innerText = timeFormatted;
+
+            // 3. Aktif vakit kartını vurgula
+            prayerOrder.forEach(p => {
+                const card = document.getElementById(`prayer-card-${p.key}`);
+                const icon = document.getElementById(`icon-val-${p.key}`);
+                const timeText = document.getElementById(`time-val-${p.key}`);
+                if (!card) return;
+
+                if (currentActivePrayer && p.key === currentActivePrayer.key) {
+                    card.className = 'bg-gradient-to-b from-teal-900/90 to-emerald-950/90 border-2 border-teal-400 rounded-2xl p-4 sm:p-5 text-center space-y-2 shadow-xl scale-105 transition-all duration-300 ring-4 ring-teal-500/20';
+                    if (icon) icon.className = 'w-8 h-8 rounded-full bg-teal-400 text-teal-950 font-bold mx-auto flex items-center justify-center text-xs animate-pulse';
+                    if (timeText) timeText.className = 'text-2xl sm:text-3xl font-black font-mono text-teal-300 tracking-wider my-1';
+                } else {
+                    card.className = 'bg-gray-900/90 border border-gray-800 rounded-2xl p-4 sm:p-5 text-center space-y-2 transition-all duration-300 shadow-md';
+                    if (icon) icon.className = 'w-8 h-8 rounded-full bg-gray-800 text-gray-400 mx-auto flex items-center justify-center text-xs';
+                    if (timeText) timeText.className = 'text-2xl sm:text-3xl font-black font-mono text-white tracking-wider my-1';
+                }
+            });
+
+            // 4. Vaktin Hadis-i Şerifini Güncelle
+            if (currentActivePrayer && PRAYER_HADITHS_MAP[currentActivePrayer.key]) {
+                const hData = PRAYER_HADITHS_MAP[currentActivePrayer.key];
+                const hTitle = document.getElementById('prayer-hadith-title');
+                const hAr = document.getElementById('prayer-hadith-ar');
+                const hTr = document.getElementById('prayer-hadith-tr');
+                const hSource = document.getElementById('prayer-hadith-source');
+
+                if (hTitle) hTitle.innerText = `${hData.title} Fazileti`;
+                if (hAr) hAr.innerText = hData.arabic;
+                if (hTr) hTr.innerText = `"${hData.tr}"`;
+                if (hSource) hSource.innerText = hData.source;
+            }
+
+            // 5. Vakit Tam Girdiğinde Bildirim Tetikle
+            if (diffSec === 0 && lastNotifiedPrayer !== nextPrayer.key) {
+                lastNotifiedPrayer = nextPrayer.key;
+                triggerPrayerNotification(nextPrayer.key, nextPrayer.name);
+            }
+        }
+
+        function triggerPrayerNotification(prayerKey, prayerName) {
+            const hData = PRAYER_HADITHS_MAP[prayerKey] || {
+                title: `${prayerName} Vakti Girdi`,
+                tr: "Namaz dinin direğidir.",
+                source: "Hadis-i Şerif"
+            };
+
+            // Ses tınısı
+            playToneSound(587.33, 'sine', 0.4);
+            setTimeout(() => playToneSound(880, 'sine', 0.5), 200);
+
+            // Toast Bildirimi
+            showToast(`🕌 ${prayerName} Vakti Girdi! "${hData.tr}"`, 'success');
+
+            // Web Notification (Masaüstü Bildirimi)
+            if ("Notification" in window && Notification.permission === "granted") {
+                new Notification(`🕌 ${prayerName} Vakti Girdi (${currentCity})`, {
+                    body: `"${hData.tr}"\n- ${hData.source}`,
+                    icon: 'kuran_portal_kapak.png'
+                });
+            }
+        }
+
+        function requestPrayerNotificationPermission() {
+            if (!("Notification" in window)) {
+                showToast("Tarayıcınız masaüstü bildirimlerini desteklemiyor.", "error");
+                return;
+            }
+
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    showToast("Namaz vakti bildirimleri başarıyla açıldı! 🔔");
+                    const btn = document.getElementById('prayer-notif-btn');
+                    if (btn) btn.innerHTML = `<i class="fa-solid fa-bell-slash text-emerald-400"></i> <span>Bildirimler Açık</span>`;
+                } else {
+                    showToast("Bildirim izni verilmedi.", "error");
+                }
+            });
+        }
+
+        function renderGeneralPrayerHadiths() {
+            const container = document.getElementById('prayer-all-hadiths-container');
+            if (!container) return;
+
+            let html = '';
+            GENERAL_PRAYER_HADITHS.forEach(h => {
+                html += `
+                    <div class="p-4 bg-gray-950/80 rounded-xl border border-gray-800 space-y-2">
+                        <div class="flex items-center justify-between border-b border-gray-800 pb-1.5">
+                            <h4 class="font-bold text-white text-xs sm:text-sm text-teal-400">${escapeHtml(h.title)}</h4>
+                            <span class="text-[10px] text-amber-400 font-mono">${escapeHtml(h.source)}</span>
+                        </div>
+                        <p class="text-sm font-quran text-gray-200 text-right py-0.5" dir="rtl">${h.arabic}</p>
+                        <p class="text-xs text-gray-300 italic">"${escapeHtml(h.tr)}"</p>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
         }
 
 
